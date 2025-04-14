@@ -10,8 +10,8 @@ const initialState: UserState = {
     username: "",
     bio: "",
     data_entrada: "",
-    seguidores: "",
-    seguindo: "",
+    id: "",
+    nickname: "",
   },
 };
 
