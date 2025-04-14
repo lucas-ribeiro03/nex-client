@@ -1,0 +1,130 @@
+.postBody {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 100vh;
+  padding: 5rem;
+  gap: 1.5rem;
+  color: #fff;
+  min-height: 100vh;
+  margin-left: 25%;
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0.8rem;
+    border: 1px solid rgba(87, 86, 86, 0.3);
+    padding: 2rem;
+    width: 65%;
+
+    .likeBtn {
+      fill: red;
+    }
+
+    p {
+      word-break: break-all;
+    }
+
+    span {
+      font-weight: 700;
+    }
+  }
+
+  .commentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    textarea {
+      resize: none;
+      min-height: 200px;
+      width: 100%;
+      padding: 0.4rem 1rem;
+      font-size: 1.2rem;
+      border-radius: 7px;
+      border: 1px solid rgba(87, 86, 86, 0.7);
+      outline: none;
+      background: #000;
+      color: #fff;
+    }
+
+    button {
+      background: #fff;
+      color: #000;
+      padding: 0.4rem 1rem;
+      border-radius: 10rem;
+      font-size: 1.2rem;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.4s;
+      border: none;
+      font-weight: 600;
+
+      &:hover {
+        background: #e4e4e4;
+      }
+    }
+
+    .commentsContainer {
+      overflow-y: auto;
+      overflow-x: hidden;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      border: solid 1px rgba(87, 86, 86, 0.2);
+      border-top: none;
+      border-bottom: none;
+
+      .commentContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        border-bottom: solid 1px rgba(87, 86, 86, 0.2);
+        border-top: none;
+        padding: 0.3rem;
+        position: relative;
+        p {
+          width: 350px;
+          word-break: break-all;
+          margin-left: 0.5rem;
+        }
+
+        .deleteCommentBtn {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          fill: red;
+          opacity: 0;
+          transition: 0.3s;
+          cursor: pointer;
+        }
+
+        &:hover .deleteCommentBtn {
+          opacity: 1;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #555; // cor da barra
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #888; // cor quando passa o mouse
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+.editProfileBody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  .mdEditProfile {
+    width: 600px;
+    height: 400px;
+    background: #000;
+    margin-top: 6rem;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    animation: openMd 0.5s;
+
+    form {
+      width: 100%;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        display: block;
+      }
+
+      input {
+        padding: 0.4rem 0.8rem;
+        border-radius: 5px;
+        outline: none;
+        background: #c1c1c1;
+        border: 1px solid rgba(136, 136, 136, 0.692);
+        color: #3b3b3b;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+      }
+
+      textarea {
+        resize: none;
+        height: 150px;
+        border-radius: 5px;
+        outline: none;
+        background: #c1c1c1;
+        border: 1px solid rgba(136, 136, 136, 0.692);
+        color: #3b3b3b;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      button {
+        padding: 0.6rem 1.3rem;
+        border-radius: 20rem;
+        border: none;
+        font-size: 1.2rem;
+        color: black;
+        font-weight: bold;
+        background-color: #fff;
+        cursor: pointer;
+        transition: 0.5s;
+
+        &:hover {
+          background-color: #7c7c7c;
+          color: #fff;
+        }
+      }
+    }
+    .closeBtnMd {
+      position: absolute;
+      fill: #fff;
+      right: -1.2rem;
+      top: -1.2rem;
+      font-size: 2.5rem;
+    }
+  }
+}
+
+@keyframes openMd {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

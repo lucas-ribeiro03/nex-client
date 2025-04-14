@@ -1,0 +1,108 @@
+.perfilBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 25%;
+  .perfilHeader {
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 4rem;
+
+    .perfilNavContainer {
+      display: flex;
+
+      nav {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-template-rows: repeat(5, 20px);
+        grid-template-areas:
+          "box1 box1"
+          "box6 box6"
+          "box2 box2"
+          "box3 box3"
+          "box4 box5";
+        gap: 0.7rem;
+      }
+
+      .username {
+        color: rgba(255, 255, 255, 0.692);
+      }
+    }
+
+    button {
+      padding: 0.4rem 1rem;
+      border-radius: 20rem;
+      border: none;
+      font-size: 1.2rem;
+      color: black;
+      font-weight: 600;
+      background-color: #fff;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+  }
+
+  .userPosts {
+    width: 100%;
+    border: 1px solid rgba(87, 86, 86, 0.3);
+    color: #fff;
+    margin-top: 1rem;
+  }
+
+  .userPost {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 2rem;
+    width: 100%;
+    color: #fff;
+    border-bottom: 1px solid rgba(87, 86, 86, 0.3);
+    cursor: pointer;
+
+    .trash {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: 0.4s;
+      fill: red;
+    }
+
+    &:hover .trash {
+      opacity: 1;
+    }
+
+    h3 {
+      position: absolute;
+      left: 0.5rem;
+      top: 0.3rem;
+    }
+
+    p {
+      margin-top: 1rem;
+      word-break: break-all;
+      max-width: 90%;
+    }
+
+    .reactions {
+      display: flex;
+      gap: 0.85rem;
+      margin-top: 1rem;
+
+      .likeContainer {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      svg {
+        font-size: 1.3rem;
+
+        cursor: pointer;
+      }
+    }
+  }
+}
