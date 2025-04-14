@@ -17,7 +17,7 @@ export const MdEditProfile: React.FC<MdEditProfileProps> = ({ onClose }) => {
   useEffect(() => {
     const getUserInfo = async () => {
       const response = await axios.get(
-        `http://localhost:3000/auth/${username}`,
+        `nex-client-production.up.railway.app/auth/${username}`,
         { headers: { accessToken: localStorage.getItem("token") } }
       );
       setUser({
@@ -32,7 +32,7 @@ export const MdEditProfile: React.FC<MdEditProfileProps> = ({ onClose }) => {
     e.preventDefault();
     await axios
       .put(
-        `http://localhost:3000/auth/`,
+        `nex-client-production.up.railway.app/auth/`,
         {
           nickname: user.nickname,
           bio: user.bio,

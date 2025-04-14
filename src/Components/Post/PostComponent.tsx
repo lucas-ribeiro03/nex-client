@@ -29,7 +29,7 @@ export const PostComponent: React.FC = () => {
   useEffect(() => {
     const checkLikes = async () => {
       const response = await axios.get(
-        `http://localhost:3000/postLikes/${id}`,
+        `nex-client-production.up.railway.app/postLikes/${id}`,
         {
           headers: {
             accessToken: localStorage.getItem("token"),
@@ -44,7 +44,9 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const getComments = async () => {
-      const response = await axios.get(`http://localhost:3000/comments/${id}`);
+      const response = await axios.get(
+        `nex-client-production.up.railway.app/comments/${id}`
+      );
 
       setComments(response.data);
     };
@@ -53,7 +55,9 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const getPost = async () => {
-      const response = await axios.get(`http://localhost:3000/posts/${id}`);
+      const response = await axios.get(
+        `nex-client-production.up.railway.app/posts/${id}`
+      );
       setPost(response.data);
     };
     getPost();
@@ -61,11 +65,14 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const response = await axios.get("http://localhost:3000/auth", {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      });
+      const response = await axios.get(
+        "nex-client-production.up.railway.app/auth",
+        {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
+        }
+      );
       if (!response.data.error) setUserLogged(response.data.username);
     };
     checkUser();
@@ -74,7 +81,7 @@ export const PostComponent: React.FC = () => {
   const handleSubmitComment = async () => {
     if (comment === "") return toast.error("Comentário não pode estar vazio");
     const response = await axios.post(
-      "http://localhost:3000/comments",
+      "nex-client-production.up.railway.app/comments",
       {
         content: comment,
         postId: id,
@@ -93,7 +100,9 @@ export const PostComponent: React.FC = () => {
   };
 
   const handleDeleteComment = async (id: string) => {
-    const response = await axios.delete(`http://localhost:3000/comments/${id}`);
+    const response = await axios.delete(
+      `nex-client-production.up.railway.app/comments/${id}`
+    );
     if (!response.data.error) {
       setComments(comments.filter((comment) => comment.id !== id));
     }
@@ -101,7 +110,7 @@ export const PostComponent: React.FC = () => {
 
   const handleDislike = async (id: string) => {
     await axios
-      .delete(`http://localhost:3000/postLikes/${id}`, {
+      .delete(`nex-client-production.up.railway.app/postLikes/${id}`, {
         headers: {
           accessToken: localStorage.getItem("token"),
         },
@@ -112,7 +121,7 @@ export const PostComponent: React.FC = () => {
   const handleLike = async () => {
     await axios
       .post(
-        "http://localhost:3000/postLikes",
+        "nex-client-production.up.railway.app/postLikes",
         {
           postId: id,
           userId: "",

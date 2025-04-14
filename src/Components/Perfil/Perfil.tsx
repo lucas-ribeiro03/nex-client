@@ -33,7 +33,7 @@ export const Perfil: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(
-        `http://localhost:3000/auth/${username}`,
+        `nex-client-production.up.railway.app/auth/${username}`,
         {
           headers: {
             accessToken: localStorage.getItem("token"),
@@ -64,11 +64,14 @@ export const Perfil: React.FC = () => {
   }, [username]);
   useEffect(() => {
     const checkLikes = async () => {
-      const response = await axios.get(`http://localhost:3000/postLikes`, {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      });
+      const response = await axios.get(
+        `nex-client-production.up.railway.app/postLikes`,
+        {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
+        }
+      );
       const postsLikedArray = response.data.map((post: { postId: string }) => {
         return post.postId;
       });
@@ -80,7 +83,7 @@ export const Perfil: React.FC = () => {
   useEffect(() => {
     const getFollows = async () => {
       const response = await axios.get(
-        `http://localhost:3000/users/${username}/followers`,
+        `nex-client-production.up.railway.app/users/${username}/followers`,
         { headers: { accessToken: localStorage.getItem("token") } }
       );
 
@@ -95,7 +98,7 @@ export const Perfil: React.FC = () => {
     const getPosts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/posts/userPosts/${username}`,
+          `nex-client-production.up.railway.app/posts/userPosts/${username}`,
           {
             headers: {
               accessToken: localStorage.getItem("token"),
@@ -113,7 +116,7 @@ export const Perfil: React.FC = () => {
 
   const handleFollowUser = async (id: string) => {
     const response = await axios.post(
-      `http://localhost:3000/users/${id}/follow`,
+      `nex-client-production.up.railway.app/users/${id}/follow`,
       {},
       {
         headers: {
@@ -131,7 +134,7 @@ export const Perfil: React.FC = () => {
 
   const handleUnfollowUser = async (username: string) => {
     const response = await axios.delete(
-      `http://localhost:3000/users/${username}`,
+      `nex-client-production.up.railway.app/users/${username}`,
       {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -146,7 +149,7 @@ export const Perfil: React.FC = () => {
 
   const handleLike = async (id: string) => {
     const response = await axios.post(
-      "http://localhost:3000/postLikes",
+      "nex-client-production.up.railway.app/postLikes",
       {
         postId: id,
         userId: "",
@@ -176,7 +179,7 @@ export const Perfil: React.FC = () => {
 
   const handleDislike = async (id: string) => {
     const response = await axios.delete(
-      `http://localhost:3000/postLikes/${id}`,
+      `nex-client-production.up.railway.app/postLikes/${id}`,
       {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -200,7 +203,7 @@ export const Perfil: React.FC = () => {
 
   const handleDeletePost = async (id: string) => {
     await axios
-      .delete(`http://localhost:3000/posts/${id}`, {
+      .delete(`nex-client-production.up.railway.app/posts/${id}`, {
         headers: { accessToken: localStorage.getItem("token") },
       })
       .then(() => navigate(0));

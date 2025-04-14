@@ -14,7 +14,7 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
   const handleSendPost = async () => {
     if (!postContent) return toast.error("Post não pode estar vazio");
     await axios.post(
-      "http://localhost:3000/posts",
+      "nex-client-production.up.railway.app/posts",
       {
         content: postContent,
       },

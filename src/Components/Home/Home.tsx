@@ -16,7 +16,7 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     const getPosts = async () => {
-      axios.get("http://localhost:3000/posts").then((response) => {
+      axios.get("nex-client-production.up.railway.app").then((response) => {
         setPosts(response.data);
       });
     };
@@ -25,9 +25,12 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     const authUser = async () => {
-      const response = await axios.get("http://localhost:3000/auth", {
-        headers: { accessToken: localStorage.getItem("token") },
-      });
+      const response = await axios.get(
+        "nex-client-production.up.railway.app/auth",
+        {
+          headers: { accessToken: localStorage.getItem("token") },
+        }
+      );
       if (response.data.error) return;
       setUser(response.data.username);
     };
