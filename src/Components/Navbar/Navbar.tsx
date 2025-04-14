@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(
-        "nex-client-production.up.railway.app/auth",
+        "https://nex-client-production.up.railway.app/auth",
         {
           headers: {
             accessToken: localStorage.getItem("token"),

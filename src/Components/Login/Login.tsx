@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
   const checkEmail = async (email: string) => {
     try {
       const response = await axios.post(
-        "nex-client-production.up.railway.app/auth/signup",
+        "https://nex-client-production.up.railway.app/auth/signup",
         {
           email,
         }
@@ -51,7 +51,7 @@ export const Login: React.FC = () => {
   const checkUsername = async (username: string) => {
     try {
       const response = await axios.post(
-        "nex-client-production.up.railway.app/auth/signup",
+        "https://nex-client-production.up.railway.app/auth/signup",
         {
           username,
         }
@@ -67,7 +67,7 @@ export const Login: React.FC = () => {
   const checkUser = async (identifier: string) => {
     try {
       const response = await axios.post(
-        "nex-client-production.up.railway.app/auth/signin",
+        "https://nex-client-production.up.railway.app/auth/signin",
         {
           identifier,
         }
@@ -81,7 +81,7 @@ export const Login: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     if (mode === "signIn") {
       const response = await axios.post(
-        "nex-client-production.up.railway.app/auth/signin",
+        "https://nex-client-production.up.railway.app/auth/signin",
         {
           identifier: data.identifier,
           password: data.password,
@@ -97,7 +97,7 @@ export const Login: React.FC = () => {
     if (mode === "signUp") {
       try {
         const response = await axios.post(
-          "nex-client-production.up.railway.app/auth/signup",
+          "https://nex-client-production.up.railway.app/auth/signup",
           {
             email: data.email,
             username: data.username,
