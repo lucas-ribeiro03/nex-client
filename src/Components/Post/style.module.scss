@@ -13,8 +13,6 @@
     flex-direction: column;
     padding: 2rem;
     margin-left: 0;
-    height: auto;
-    min-height: auto;
   }
 
   @media (max-width: 480px) {
@@ -176,11 +174,5 @@
         background-color: #888;
       }
     }
-  }
-}
-
-@media (max-width: 480px) {
-  .postBody {
-    min-height: 100vh;
   }
 }
