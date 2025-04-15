@@ -112,7 +112,7 @@
       fill: red;
 
       @media (max-width: 480px) {
-        position: static;
+        position: absolute;
         transform: none;
         opacity: 1;
         right: 1.7rem;
