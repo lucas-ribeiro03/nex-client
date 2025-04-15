@@ -178,3 +178,9 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .postBody {
+    min-height: 100vh;
+  }
+}
