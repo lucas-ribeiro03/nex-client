@@ -26,7 +26,7 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
           },
         }
       )
-      .then();
+      .then(onClose);
     setPostContent("");
   };
 
