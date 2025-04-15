@@ -258,11 +258,12 @@ export const Perfil: React.FC = () => {
         <div className={styles.userPosts}>
           {userPosts.map((userPost, key) => (
             <div key={key} className={styles.userPost}>
-              <FaTrashAlt
-                onClick={() => handleDeletePost(userPost.id)}
-                className={styles.trash}
-              />
-
+              {username === user.username ? (
+                <FaTrashAlt
+                  onClick={() => handleDeletePost(userPost.id)}
+                  className={styles.trash}
+                />
+              ) : null}
               <h3>{user.username}</h3>
               <p>{userPost.content}</p>
               <div className={styles.reactions}>
