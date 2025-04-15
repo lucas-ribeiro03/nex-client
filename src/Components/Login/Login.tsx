@@ -118,7 +118,9 @@ export const Login: React.FC = () => {
       <ToastContainer />
       <div className={styles.loginBody}>
         <img src={logo} height={130} width={130} alt="" />
-        <h2>{mode === "signIn" ? "Sign in to NEX" : "Create a NEX account"}</h2>
+        <h2>
+          {mode === "signIn" ? "Registre-se em NEX" : "Crie uma conta NEX"}
+        </h2>
         <div className={styles.googleBtn}>
           <button>Sign in with Google</button>
         </div>
@@ -145,7 +147,7 @@ export const Login: React.FC = () => {
                     checkUser(e.identifier);
                   })}
                 >
-                  Next
+                  Próximo
                 </button>
               </>
             )}
@@ -213,7 +215,7 @@ export const Login: React.FC = () => {
                     checkEmail(e.email);
                   })}
                 >
-                  Next
+                  Próximo
                 </button>
               </>
             )}
@@ -233,7 +235,7 @@ export const Login: React.FC = () => {
                   type="button"
                   onClick={handleSubmit((e) => checkUsername(e.username))}
                 >
-                  Next
+                  Próximo
                 </button>
               </>
             )}
@@ -279,7 +281,7 @@ export const Login: React.FC = () => {
         {mode === "signIn" && step !== "password" && (
           <>
             <span>
-              Don't have an account?{" "}
+              Não tem uma conta?{" "}
               <a
                 href=""
                 onClick={(e) => {
@@ -288,7 +290,7 @@ export const Login: React.FC = () => {
                   setStep("email");
                 }}
               >
-                Sign up
+                Cadastre-se
               </a>
             </span>
           </>
@@ -296,7 +298,7 @@ export const Login: React.FC = () => {
         {mode === "signUp" && step !== "password" && (
           <>
             <span>
-              Already have an account?{" "}
+              Já tem uma conta?{" "}
               <a
                 href=""
                 onClick={(e) => {
@@ -305,7 +307,7 @@ export const Login: React.FC = () => {
                   setStep("identifier");
                 }}
               >
-                Sign in
+                Entre
               </a>
             </span>
           </>
