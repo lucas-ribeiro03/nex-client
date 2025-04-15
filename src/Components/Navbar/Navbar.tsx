@@ -8,10 +8,14 @@ import { MdCreatePost } from "../MdCreatePost/MdCreatePost";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducer } from "../../redux/root-reducer";
+import { IoMdClose } from "react-icons/io";
 import axios from "axios";
 import { saveLogin } from "../../redux/isLoggedReducer/isLogged-slice";
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onclose: () => void;
+}
+export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
@@ -49,6 +53,7 @@ export const Navbar: React.FC = () => {
       className={styles.navContainer}
       onClick={() => (menuVisible ? setMenuVisible(false) : null)}
     >
+      <IoMdClose onClick={onclose} />
       <nav>
         <img src={logo} width={120} height={120} />
         <ul>

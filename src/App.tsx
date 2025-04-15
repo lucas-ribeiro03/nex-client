@@ -40,7 +40,11 @@ function App() {
         ) : null}
         <Provider store={store}>
           <Router>
-            <div className={styles.nav}>{isNavbarVisible && <Navbar />}</div>
+            <div className={styles.nav}>
+              {isNavbarVisible && (
+                <Navbar onclose={() => setIsNavbarVisible(false)} />
+              )}
+            </div>
 
             <Routes>
               <Route path="" element={<Home />} />
