@@ -136,5 +136,13 @@
 }
 
 .closeBtn {
-  font-size: 1.5rem;
+  opacity: 0;
+
+  @media (max-width: 480px) {
+    opacity: 1;
+    font-size: 2rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
 }
