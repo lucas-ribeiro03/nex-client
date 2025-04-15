@@ -35,7 +35,7 @@ function App() {
 
   return (
     <>
-      <GoogleOAuthProvider>
+      <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
         <div className={styles.body}>
           {isNavbarVisible === false ? (
             <FaBars className={styles.bars} onClick={handleOpenMenu} />
