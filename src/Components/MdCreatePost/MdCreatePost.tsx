@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface MdCreatePostProps {
   onClose: () => void;
@@ -10,6 +11,7 @@ interface MdCreatePostProps {
 
 export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
   const [postContent, setPostContent] = useState("");
+  const navigate = useNavigate();
 
   const handleSendPost = async (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +29,8 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
         }
       )
       .then(onClose);
+    navigate(0);
+
     setPostContent("");
   };
 
