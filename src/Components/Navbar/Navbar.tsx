@@ -27,11 +27,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get("http://localhost:3001/auth", {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      });
+      const response = await axios.get(
+        "https://nex-client-production.up.railway.app/auth",
+        {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
+        }
+      );
       setUsername(response.data.username);
     };
     if (isLogged) getUser();
