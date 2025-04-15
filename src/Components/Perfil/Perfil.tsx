@@ -258,7 +258,7 @@ export const Perfil: React.FC = () => {
         <div className={styles.userPosts}>
           {userPosts.map((userPost, key) => (
             <div key={key} className={styles.userPost}>
-              {username === user.username ? (
+              {mode === "Owner" ? (
                 <FaTrashAlt
                   onClick={() => handleDeletePost(userPost.id)}
                   className={styles.trash}
