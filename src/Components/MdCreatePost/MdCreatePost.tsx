@@ -34,14 +34,14 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
     <div className={styles.mdBody}>
       <ToastContainer />
       <div className={styles.mdContainer}>
-        <form>
+        <form onSubmit={handleSendPost}>
           <textarea
             placeholder="O que estou pensando..."
             value={postContent}
             maxLength={255}
             onChange={(e) => setPostContent(e.target.value)}
           />
-          <button onClick={() => handleSendPost}>Postar</button>
+          <button>Postar</button>
         </form>
         <button onClick={onClose} className={styles.closeBtn}>
           <IoMdClose />
