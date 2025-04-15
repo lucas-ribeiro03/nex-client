@@ -13,7 +13,9 @@
     flex-direction: column;
     padding: 2rem;
     min-height: 100vh;
+    height: 100vh;
     margin-left: 0;
+    background-color: rgb(10, 10, 10);
   }
 
   @media (max-width: 480px) {
