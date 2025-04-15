@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { saveLogin } from "../../redux/isLoggedReducer/isLogged-slice";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import { useGoogleLogin } from "@react-oauth/google";
 import { toast, ToastContainer } from "react-toastify";
 
 interface FormData {
@@ -34,12 +34,9 @@ export const Login: React.FC = () => {
 
   const checkEmail = async (email: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signup",
-        {
-          email,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/auth/signup", {
+        email,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       setStep("username");
@@ -50,12 +47,9 @@ export const Login: React.FC = () => {
 
   const checkUsername = async (username: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signup",
-        {
-          username,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/auth/signup", {
+        username,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       setStep("password");
@@ -66,12 +60,9 @@ export const Login: React.FC = () => {
 
   const checkUser = async (identifier: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signin",
-        {
-          identifier,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/auth/signin", {
+        identifier,
+      });
       if (response.data.error) return toast.error(response.data.error);
       setStep("password");
     } catch (e) {
@@ -80,13 +71,10 @@ export const Login: React.FC = () => {
   };
   const onSubmit = async (data: FormData) => {
     if (mode === "signIn") {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signin",
-        {
-          identifier: data.identifier,
-          password: data.password,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/auth/signin", {
+        identifier: data.identifier,
+        password: data.password,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       localStorage.setItem("token", response.data);
@@ -96,15 +84,12 @@ export const Login: React.FC = () => {
 
     if (mode === "signUp") {
       try {
-        const response = await axios.post(
-          "https://nex-client-production.up.railway.app/auth/signup",
-          {
-            email: data.email,
-            username: data.username,
-            nickname: data.username,
-            password: data.password,
-          }
-        );
+        const response = await axios.post("http://localhost:3001/auth/signup", {
+          email: data.email,
+          username: data.username,
+          nickname: data.username,
+          password: data.password,
+        });
         if (response.data.error) return toast.error(response.data.error);
         navigate(0);
       } catch (e) {
@@ -113,16 +98,41 @@ export const Login: React.FC = () => {
     }
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
+      const postGoogleUsers = async () => {
+        const response = await axios.post("http://localhost:3001/auth/google", {
+          username: userInfo.data.name,
+          nickname: userInfo.data.name,
+          email: userInfo.data.email,
+          password: userInfo.data.sub,
+        });
+
+        localStorage.setItem("token", response.data);
+        dispatch(saveLogin(true));
+        navigate("/");
+      };
+
+      postGoogleUsers();
+    },
+  });
+
   return (
     <div className={styles.mdLoginBody}>
       <ToastContainer />
       <div className={styles.loginBody}>
         <img src={logo} height={130} width={130} alt="" />
-        <h2>
-          {mode === "signIn" ? "Registre-se em NEX" : "Crie uma conta NEX"}
-        </h2>
+        <h2>{mode === "signIn" ? "Sign in to NEX" : "Create a NEX account"}</h2>
         <div className={styles.googleBtn}>
-          <button>Sign in with Google</button>
+          <button onClick={() => googleLogin()}>Sign in with Google</button>
         </div>
         <span>or</span>
         {mode === "signIn" ? (
@@ -147,7 +157,7 @@ export const Login: React.FC = () => {
                     checkUser(e.identifier);
                   })}
                 >
-                  Próximo
+                  Next
                 </button>
               </>
             )}
@@ -215,7 +225,7 @@ export const Login: React.FC = () => {
                     checkEmail(e.email);
                   })}
                 >
-                  Próximo
+                  Next
                 </button>
               </>
             )}
@@ -235,7 +245,7 @@ export const Login: React.FC = () => {
                   type="button"
                   onClick={handleSubmit((e) => checkUsername(e.username))}
                 >
-                  Próximo
+                  Next
                 </button>
               </>
             )}
@@ -281,7 +291,7 @@ export const Login: React.FC = () => {
         {mode === "signIn" && step !== "password" && (
           <>
             <span>
-              Não tem uma conta?{" "}
+              Don't have an account?{" "}
               <a
                 href=""
                 onClick={(e) => {
@@ -290,7 +300,7 @@ export const Login: React.FC = () => {
                   setStep("email");
                 }}
               >
-                Cadastre-se
+                Sign up
               </a>
             </span>
           </>
@@ -298,7 +308,7 @@ export const Login: React.FC = () => {
         {mode === "signUp" && step !== "password" && (
           <>
             <span>
-              Já tem uma conta?{" "}
+              Already have an account?{" "}
               <a
                 href=""
                 onClick={(e) => {
@@ -307,7 +317,7 @@ export const Login: React.FC = () => {
                   setStep("identifier");
                 }}
               >
-                Entre
+                Sign in
               </a>
             </span>
           </>
