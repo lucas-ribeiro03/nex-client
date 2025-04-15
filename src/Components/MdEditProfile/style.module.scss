@@ -6,12 +6,13 @@
   height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center; // Centraliza verticalmente
 
   .mdEditProfile {
-    width: 600px;
-    height: 400px;
+    width: 600px; // Largura padrão para telas grandes
+    height: 400px; // Altura padrão para telas grandes
     background: #000;
-    margin-top: 6rem;
+    margin-top: 6rem; // Margem superior para telas grandes
     border-radius: 12px;
     padding: 2rem;
     display: flex;
@@ -29,21 +30,9 @@
         display: block;
       }
 
-      input {
-        padding: 0.4rem 0.8rem;
-        border-radius: 5px;
-        outline: none;
-        background: #c1c1c1;
-        border: 1px solid rgba(136, 136, 136, 0.692);
-        color: #3b3b3b;
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-bottom: 0.6rem;
-      }
-
+      input,
       textarea {
-        resize: none;
-        height: 150px;
+        padding: 0.4rem 0.8rem;
         border-radius: 5px;
         outline: none;
         background: #c1c1c1;
@@ -52,7 +41,12 @@
         font-weight: 600;
         font-size: 1.1rem;
         margin-bottom: 0.6rem;
-        padding: 0.4rem 0.8rem;
+        width: 100%; // Garante que os campos ocupem 100% da largura
+
+        // Ajuste de altura para textarea
+        &.textarea {
+          height: 150px;
+        }
       }
 
       button {
@@ -72,12 +66,29 @@
         }
       }
     }
+
     .closeBtnMd {
       position: absolute;
       fill: #fff;
       right: -1.2rem;
       top: -1.2rem;
       font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .mdEditProfile {
+      width: 100%; // Largura total em dispositivos móveis
+      height: 100%; // Altura total em dispositivos móveis
+      margin-top: 0; // Remove a margem superior
+      border-radius: 0; // Remove bordas arredondadas para ocupar toda a tela
+      padding: 1rem; // Ajusta o padding para telas menores
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mdEditProfile {
+      padding: 0.5rem; // Reduz o padding em telas muito pequenas
     }
   }
 }
