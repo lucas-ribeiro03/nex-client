@@ -2,13 +2,7 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "destination": "/:path*",
-      "missing": [
-        {
-          "type": "header",
-          "key": "Next-Router-Prefetch"
-        }
-      ]
+      "destination": "/:path*"
     }
   ]
 }
