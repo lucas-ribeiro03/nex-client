@@ -10,6 +10,7 @@ import { PostComponent } from "./Components/Post/PostComponent";
 import { Perfil } from "./Components/Perfil/Perfil";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -34,27 +35,29 @@ function App() {
 
   return (
     <>
-      <div className={styles.body}>
-        {isNavbarVisible === false ? (
-          <FaBars className={styles.bars} onClick={handleOpenMenu} />
-        ) : null}
-        <Provider store={store}>
-          <Router>
-            <div className={styles.nav}>
-              {isNavbarVisible && (
-                <Navbar onclose={() => setIsNavbarVisible(false)} />
-              )}
-            </div>
+      <GoogleOAuthProvider>
+        <div className={styles.body}>
+          {isNavbarVisible === false ? (
+            <FaBars className={styles.bars} onClick={handleOpenMenu} />
+          ) : null}
+          <Provider store={store}>
+            <Router>
+              <div className={styles.nav}>
+                {isNavbarVisible && (
+                  <Navbar onclose={() => setIsNavbarVisible(false)} />
+                )}
+              </div>
 
-            <Routes>
-              <Route path="" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/post/:id" element={<PostComponent />} />
-              <Route path="/perfil/:username" element={<Perfil />} />
-            </Routes>
-          </Router>
-        </Provider>
-      </div>
+              <Routes>
+                <Route path="" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/post/:id" element={<PostComponent />} />
+                <Route path="/perfil/:username" element={<Perfil />} />
+              </Routes>
+            </Router>
+          </Provider>
+        </div>{" "}
+      </GoogleOAuthProvider>
     </>
   );
 }
