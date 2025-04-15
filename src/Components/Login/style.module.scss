@@ -86,3 +86,47 @@
   top: 50%;
   transform: translate(5%, -50%);
 }
+
+@media (max-width: 768px) {
+  .loginBody {
+    width: 90%;
+    height: auto;
+    top: 5rem;
+  }
+
+  .loginBody form input {
+    width: 80%;
+  }
+
+  .loginBody form button {
+    width: 80%;
+  }
+
+  .googleBtn button {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginBody {
+    width: 95%;
+    top: 3rem;
+    transform: translateX(-50%);
+  }
+
+  .loginBody form input {
+    font-size: 1rem;
+  }
+
+  .loginBody form button {
+    font-size: 0.9rem;
+  }
+
+  .googleBtn button {
+    font-size: 0.9rem;
+  }
+
+  .inputBox svg {
+    right: 6rem;
+  }
+}
