@@ -111,9 +111,12 @@
       transition: 0.4s;
       fill: red;
 
+      &:hover {
+        opacity: 1;
+      }
+
       @media (max-width: 480px) {
         position: absolute;
-        transform: none;
         opacity: 1;
         right: 1.7rem;
         margin-top: 0.5rem;
