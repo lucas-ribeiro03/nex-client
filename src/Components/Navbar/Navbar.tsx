@@ -27,14 +27,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get(
-        "https://nex-client-production.up.railway.app/auth",
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3001/auth", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
       setUsername(response.data.username);
     };
     if (isLogged) getUser();
@@ -58,7 +55,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
         <img src={logo} width={120} height={120} />
         <ul>
           <li>
-            <a href="/">
+            <a
+              href="/"
+              onClick={() => {
+                if (window.innerWidth < 768) {
+                  onclose();
+                }
+              }}
+            >
               <AiFillHome />
               Home
             </a>
@@ -70,6 +74,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   navigate(`/perfil/${username}`);
+                  if (window.innerWidth < 768) {
+                    onclose();
+                  }
                 }}
               >
                 <IoMdPerson />
@@ -81,6 +88,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/login");
+                  if (window.innerWidth < 768) {
+                    onclose();
+                  }
                 }}
               >
                 <IoMdPerson />
