@@ -206,7 +206,11 @@ export const Perfil: React.FC = () => {
       .delete(`https://nex-client-production.up.railway.app/posts/${id}`, {
         headers: { accessToken: localStorage.getItem("token") },
       })
-      .then(() => navigate(0));
+      .then((response) =>
+        setUserPosts((prev) =>
+          prev.filter((posts) => posts.id !== response.data.id)
+        )
+      );
   };
 
   return (

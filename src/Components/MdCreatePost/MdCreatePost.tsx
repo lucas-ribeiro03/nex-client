@@ -11,8 +11,8 @@ interface MdCreatePostProps {
 export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
   const [postContent, setPostContent] = useState("");
 
-  const handleSendPost = async () => {
-    console.log("handlesendpost");
+  const handleSendPost = async (e: React.FocusEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!postContent) return toast.error("Post não pode estar vazio");
     await axios
       .post(
@@ -26,7 +26,7 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
           },
         }
       )
-      .then(() => console.log("foi mano nao sei tambem"));
+      .then();
     setPostContent("");
   };
 
@@ -41,7 +41,7 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
             maxLength={255}
             onChange={(e) => setPostContent(e.target.value)}
           />
-          <button onClick={handleSendPost}>Postar</button>
+          <button onClick={() => handleSendPost}>Postar</button>
         </form>
         <button onClick={onClose} className={styles.closeBtn}>
           <IoMdClose />
