@@ -4,19 +4,37 @@
   flex-direction: column;
   min-height: 100vh;
   margin-left: 25%;
+  background: rgb(73, 73, 73); // Garantir fundo consistente
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding-top: 2rem;
+  }
+
   .perfilHeader {
     color: #fff;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; // Mudar para coluna em mobile
+    gap: 1.5rem;
     padding: 4rem;
+
+    @media (max-width: 1024px) {
+      padding: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      padding: 1rem;
+    }
 
     .perfilNavContainer {
       display: flex;
+      flex-wrap: wrap; // Permitir quebra de linha
+      gap: 1rem;
 
       nav {
         display: grid;
         grid-template-columns: repeat(2, auto);
-        grid-template-rows: repeat(5, 20px);
+        grid-template-rows: auto;
         grid-template-areas:
           "box1 box1"
           "box6 box6"
@@ -24,10 +42,23 @@
           "box3 box3"
           "box4 box5";
         gap: 0.7rem;
+        width: 100%;
+
+        @media (max-width: 480px) {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "box1"
+            "box6"
+            "box2"
+            "box3"
+            "box4"
+            "box5";
+        }
       }
 
       .username {
         color: rgba(255, 255, 255, 0.692);
+        font-size: clamp(1.2rem, 3vw, 1.5rem); // Tamanho responsivo
       }
     }
 
@@ -41,6 +72,13 @@
       background-color: #fff;
       cursor: pointer;
       transition: 0.5s;
+      white-space: nowrap;
+
+      @media (max-width: 480px) {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+      }
     }
   }
 
@@ -61,6 +99,10 @@
     border-bottom: 1px solid rgba(87, 86, 86, 0.3);
     cursor: pointer;
 
+    @media (max-width: 480px) {
+      padding: 1.5rem 1rem;
+    }
+
     .trash {
       position: absolute;
       right: 1.5rem;
@@ -69,28 +111,45 @@
       opacity: 0;
       transition: 0.4s;
       fill: red;
+
+      @media (max-width: 480px) {
+        position: static;
+        transform: none;
+        opacity: 1;
+        margin-top: 0.5rem;
+      }
     }
 
     &:hover .trash {
-      opacity: 1;
+      @media (hover: hover) {
+        opacity: 1;
+      }
     }
 
     h3 {
       position: absolute;
       left: 0.5rem;
       top: 0.3rem;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+
+      @media (max-width: 480px) {
+        position: static;
+        margin-bottom: 0.5rem;
+      }
     }
 
     p {
       margin-top: 1rem;
       word-break: break-all;
       max-width: 90%;
+      font-size: clamp(0.9rem, 2vw, 1rem);
     }
 
     .reactions {
       display: flex;
       gap: 0.85rem;
       margin-top: 1rem;
+      flex-wrap: wrap;
 
       .likeContainer {
         display: flex;
@@ -99,8 +158,7 @@
       }
 
       svg {
-        font-size: 1.3rem;
-
+        font-size: clamp(1rem, 2vw, 1.3rem);
         cursor: pointer;
       }
     }
