@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoChatboxOutline } from "react-icons/io5";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
-import { FaUserPlus, FaCheck } from "react-icons/fa";
+import { FaUserPlus, FaCheck, FaBars } from "react-icons/fa";
 
 export const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -13,6 +13,7 @@ export const Home: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [user, setUser] = useState("");
   const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const [isVisibleNav, setIsVisibleNav] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -20,6 +21,7 @@ export const Home: React.FC = () => {
         .get("https://nex-client-production.up.railway.app/posts")
         .then((response) => {
           setPosts(response.data);
+          console.log(response.data);
         });
     };
     getPosts();
@@ -174,58 +176,61 @@ export const Home: React.FC = () => {
       )
     );
   };
-
   return (
     <div className={styles.body}>
       <div className={styles.posts}>
-        {posts.map((post, key) => (
-          <div key={key} className={styles.postContainer}>
-            <div className={styles.postContainerHeader}>
-              <h3 onClick={() => handleGetUser(post.user.username)}>
-                {post.user.username}
-              </h3>
-              {user === post.user.username ? null : isFollowing.includes(
-                  post.userId
-                ) ? (
-                <span
-                  title="Deixar de seguir"
-                  onClick={() => handleUnfollowUser(post.user.username)}
-                >
-                  Seguindo <FaCheck />
-                </span>
-              ) : (
-                <button onClick={() => handleFollowUser(post.user.username)}>
-                  <FaUserPlus />
-                </button>
-              )}
-            </div>
+        {posts
+          ? posts.map((post, key) => (
+              <div key={key} className={styles.postContainer}>
+                <div className={styles.postContainerHeader}>
+                  <h3 onClick={() => handleGetUser(post.user.username)}>
+                    {post.user.username}
+                  </h3>
+                  {user === post.user.username ? null : isFollowing.includes(
+                      post.userId
+                    ) ? (
+                    <span
+                      title="Deixar de seguir"
+                      onClick={() => handleUnfollowUser(post.user.username)}
+                    >
+                      Seguindo <FaCheck />
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleFollowUser(post.user.username)}
+                    >
+                      <FaUserPlus />
+                    </button>
+                  )}
+                </div>
 
-            <p>{post.content}</p>
+                <p>{post.content}</p>
 
-            <div className={styles.reactions}>
-              <IoChatboxOutline
-                className={styles.commentBtn}
-                onClick={() => handleClick(post.id)}
-              />
-
-              <div className={styles.likeContainer}>
-                {likedPosts.includes(post.id) ? (
-                  <IoMdHeart
-                    style={{ fill: "red" }}
-                    className={styles.heartBtn}
-                    onClick={() => handleDislike(post.id)}
+                <div className={styles.reactions}>
+                  <IoChatboxOutline
+                    className={styles.commentBtn}
+                    onClick={() => handleClick(post.id)}
                   />
-                ) : (
-                  <IoMdHeartEmpty
-                    className={styles.heartBtn}
-                    onClick={() => handleLike(post.id)}
-                  />
-                )}
-                <span>{post.likes.length}</span>
+
+                  <div className={styles.likeContainer}>
+                    {likedPosts.includes(post.id) ? (
+                      <IoMdHeart
+                        style={{ fill: "red" }}
+                        className={styles.heartBtn}
+                        onClick={() => handleDislike(post.id)}
+                      />
+                    ) : (
+                      <IoMdHeartEmpty
+                        className={styles.heartBtn}
+                        onClick={() => handleLike(post.id)}
+                      />
+                    )}
+                    <span>{post.likes.length}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))
+          : null}
       </div>
     </div>
   );

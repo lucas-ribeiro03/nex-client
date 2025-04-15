@@ -78,3 +78,61 @@
     top: -2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .navContainer {
+    width: 100%;
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    nav {
+      gap: 2rem;
+
+      ul {
+        gap: 1.5rem;
+
+        li a {
+          font-size: 1.3rem;
+          gap: 0.8rem;
+        }
+      }
+
+      button {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+      }
+
+      .profileContainer {
+        justify-content: center;
+
+        .menu {
+          left: 50%;
+          transform: translateX(-50%);
+          top: 3rem;
+        }
+      }
+    }
+  }
+}
+
+/* Botão para abrir/fechar menu mobile (adicione no HTML) */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    display: block;
+  }
+}

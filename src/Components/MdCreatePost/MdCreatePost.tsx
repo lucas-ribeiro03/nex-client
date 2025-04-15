@@ -12,18 +12,21 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
   const [postContent, setPostContent] = useState("");
 
   const handleSendPost = async () => {
+    console.log("handlesendpost");
     if (!postContent) return toast.error("Post não pode estar vazio");
-    await axios.post(
-      "https://nex-client-production.up.railway.app/posts",
-      {
-        content: postContent,
-      },
-      {
-        headers: {
-          accessToken: localStorage.getItem("token"),
+    await axios
+      .post(
+        "https://nex-client-production.up.railway.app/posts",
+        {
+          content: postContent,
         },
-      }
-    );
+        {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then(() => console.log("foi mano nao sei tambem"));
     setPostContent("");
   };
 
