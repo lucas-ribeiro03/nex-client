@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoChatboxOutline } from "react-icons/io5";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
-import { FaUserPlus, FaCheck, FaBars } from "react-icons/fa";
+import { FaUserPlus, FaCheck } from "react-icons/fa";
 
 export const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -13,7 +13,6 @@ export const Home: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [user, setUser] = useState("");
   const [likedPosts, setLikedPosts] = useState<string[]>([]);
-  const [isVisibleNav, setIsVisibleNav] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
