@@ -112,7 +112,7 @@ export const Perfil: React.FC = () => {
     };
 
     getPosts();
-  }, []);
+  }, [username]);
 
   const handleFollowUser = async (id: string) => {
     const response = await axios.post(
