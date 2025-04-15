@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
       className={styles.navContainer}
       onClick={() => (menuVisible ? setMenuVisible(false) : null)}
     >
-      <IoMdClose onClick={onclose} />
+      <IoMdClose className={styles.closeBtn} onClick={onclose} />
       <nav>
         <img src={logo} width={120} height={120} />
         <ul>
