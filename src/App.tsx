@@ -22,6 +22,7 @@ function App() {
       const currentHeight = window.innerHeight;
       console.log("last.current: ", lastWindowHeight.current);
       console.log("last: ", lastWindowHeight);
+      console.log("abri o teclado");
       console.log("current: ", currentHeight);
 
       // Se a altura caiu significativamente, provavelmente é o teclado
@@ -31,7 +32,6 @@ function App() {
       }
 
       if (window.innerWidth < 768) {
-        setIsNavbarVisible(false);
         console.log("Navbar oculta");
       } else {
         setIsNavbarVisible(true);
