@@ -45,7 +45,7 @@ function App() {
     handleResize(); // chama uma vez no início
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [window.innerHeight]);
 
   const handleOpenMenu = () => {
     setIsNavbarVisible(true);
