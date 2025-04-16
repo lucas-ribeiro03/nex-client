@@ -9,47 +9,29 @@ import { store } from "./redux/store";
 import { PostComponent } from "./Components/Post/PostComponent";
 import { Perfil } from "./Components/Perfil/Perfil";
 import { FaBars } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const lastWindowHeight = useRef(window.innerHeight);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    console.log(innerHeight);
+    console.log(windowHeight);
+    if (windowHeight > window.innerHeight) return console.log("teclado abriu");
     const handleResize = () => {
-      const currentHeight = window.innerHeight;
-      console.log("last.current: ", lastWindowHeight.current);
-      console.log("last: ", lastWindowHeight);
-      console.log("abri o teclado");
-      console.log("current: ", currentHeight);
-
-      // Se a altura caiu significativamente, provavelmente é o teclado
-      if (
-        lastWindowHeight.current > currentHeight ||
-        lastWindowHeight.current === currentHeight ||
-        lastWindowHeight.current < currentHeight
-      ) {
-        return console.log("Teclado provavelmente abriu — ignorando resize");
-      }
-
       if (window.innerWidth < 768) {
-        console.log("Navbar oculta");
         setIsNavbarVisible(false);
       } else {
         setIsNavbarVisible(true);
       }
-
-      // Atualiza a altura
-      lastWindowHeight.current = currentHeight;
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // chama uma vez no início
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [window.innerHeight]);
+  }, []);
 
   const handleOpenMenu = () => {
     setIsNavbarVisible(true);
