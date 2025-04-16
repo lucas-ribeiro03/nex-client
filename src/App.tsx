@@ -11,68 +11,48 @@ import { Perfil } from "./Components/Perfil/Perfil";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useWindowSize } from "./hooks/useWindowSize"; // <-- aqui
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [windowHeight] = useState(window.innerHeight);
+  const { width, isKeyboardOpen } = useWindowSize(); // <-- aqui
 
   useEffect(() => {
-    const handleResize = () => {
-      console.log("entrei no handle resize");
-      console.log(`window inner: ${window.innerHeight}`);
-      console.log(`windowheight: ${windowHeight}`);
-      console.log(`valor final: ${window.innerHeight - windowHeight}`);
-
-      if (
-        window.innerHeight - windowHeight < 10 &&
-        window.innerHeight - windowHeight > 50
-      ) {
-        setTimeout(() => {}, 3000);
-        return console.log("teclado abriu");
-      }
-      if (window.innerWidth < 768) {
-        setIsNavbarVisible(false);
-      } else {
-        setIsNavbarVisible(true);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (width < 768 && !isKeyboardOpen) {
+      setIsNavbarVisible(false);
+    } else {
+      setIsNavbarVisible(true);
+    }
+  }, [width, isKeyboardOpen]);
 
   const handleOpenMenu = () => {
     setIsNavbarVisible(true);
   };
 
   return (
-    <>
-      <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
-        <div className={styles.body}>
-          {isNavbarVisible === false ? (
-            <FaBars className={styles.bars} onClick={handleOpenMenu} />
-          ) : null}
-          <Provider store={store}>
-            <Router>
-              <div className={styles.nav}>
-                {isNavbarVisible && (
-                  <Navbar onclose={() => setIsNavbarVisible(false)} />
-                )}
-              </div>
+    <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
+      <div className={styles.body}>
+        {!isNavbarVisible && (
+          <FaBars className={styles.bars} onClick={handleOpenMenu} />
+        )}
+        <Provider store={store}>
+          <Router>
+            <div className={styles.nav}>
+              {isNavbarVisible && (
+                <Navbar onclose={() => setIsNavbarVisible(false)} />
+              )}
+            </div>
 
-              <Routes>
-                <Route path="" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/post/:id" element={<PostComponent />} />
-                <Route path="/perfil/:username" element={<Perfil />} />
-              </Routes>
-            </Router>
-          </Provider>
-        </div>{" "}
-      </GoogleOAuthProvider>
-    </>
+            <Routes>
+              <Route path="" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/post/:id" element={<PostComponent />} />
+              <Route path="/perfil/:username" element={<Perfil />} />
+            </Routes>
+          </Router>
+        </Provider>
+      </div>
+    </GoogleOAuthProvider>
   );
 }
 
