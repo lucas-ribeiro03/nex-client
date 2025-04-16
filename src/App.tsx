@@ -41,7 +41,7 @@ function App() {
         } else {
           setIsNavbarVisible(true);
         }
-      }, 200); // espera 200ms pra garantir que a oscilação pare
+      }, 2000); // espera 200ms pra garantir que a oscilação pare
     };
 
     window.addEventListener("resize", handleResize);
