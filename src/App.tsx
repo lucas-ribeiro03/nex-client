@@ -11,11 +11,11 @@ import { Perfil } from "./Components/Perfil/Perfil";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useWindowSize } from "./hooks/useWindowSize"; // <-- aqui
+import { useWindowSize } from "./hooks/useWindowSize";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const { width, isKeyboardOpen } = useWindowSize(); // <-- aqui
+  const { width, isKeyboardOpen } = useWindowSize();
 
   useEffect(() => {
     if (width < 768 && !isKeyboardOpen) {
