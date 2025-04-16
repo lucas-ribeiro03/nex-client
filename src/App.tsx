@@ -17,15 +17,16 @@ function App() {
   const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    console.log(windowHeight);
-    console.log(window.innerHeight);
-    console.log(`valor: ${window.innerHeight - windowHeight}`);
-    if (window.innerHeight - windowHeight > 50) {
-      return console.log(
-        `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
-      );
-    }
     const handleResize = () => {
+      console.log(windowHeight);
+      console.log(window.innerHeight);
+      console.log(`valor: ${window.innerHeight - windowHeight}`);
+      if (window.innerHeight - windowHeight > 50) {
+        return console.log(
+          `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
+        );
+      }
+
       if (window.innerWidth < 768) {
         console.log(
           `entrou no evento pra fechar a navbar window: ${windowHeight}, inner: ${window.innerHeight}`
