@@ -28,7 +28,9 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
           },
         }
       )
-      .then(onClose);
+      .then(() => {
+        console.log("o problema tá aqui ");
+      });
     navigate(0);
 
     setPostContent("");

@@ -19,12 +19,15 @@ function App() {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setIsNavbarVisible(false);
+        console.log("o problema tá aqui ");
       } else {
         setIsNavbarVisible(true);
+        console.log("o problema tá aqui ");
       }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
+    console.log("o problema tá aqui ");
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);

@@ -79,6 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                   navigate(`/perfil/${username}`);
                   if (window.innerWidth < 480) {
                     onclose();
+                    console.log("o problema tá aqui ");
                   }
                 }}
               >
@@ -93,6 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                   navigate("/login");
                   if (window.innerWidth < 480) {
                     onclose();
+                    console.log("o problema tá aqui ");
                   }
                 }}
               >
