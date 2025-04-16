@@ -17,32 +17,41 @@ function App() {
   const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    const handleResize = () => {
-      console.log(windowHeight);
-      console.log(window.innerHeight);
-      console.log(`valor: ${window.innerHeight - windowHeight}`);
-      const diff = Math.abs(window.innerHeight - windowHeight);
-      if (diff > 10 && diff < 50) {
-        return console.log(
-          `a diferença foi de ${diff}, sendo assim teclado aberto`
-        );
-      }
+    let timeout: number;
 
-      if (window.innerWidth < 768) {
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        const currentHeight = window.innerHeight;
+        const diff = Math.abs(currentHeight - windowHeight);
+
         console.log(
-          `entrou no evento pra fechar a navbar window: ${windowHeight}, inner: ${window.innerHeight}`
+          `windowHeight: ${windowHeight}, innerHeight: ${currentHeight}, diff: ${diff}`
         );
-        setIsNavbarVisible(false);
-      } else {
-        setIsNavbarVisible(true);
-      }
+
+        if (diff > 10 && diff < 100) {
+          console.log("Teclado provavelmente aberto, não fecha navbar");
+          return;
+        }
+
+        if (window.innerWidth < 768) {
+          console.log("Fechando navbar (não foi teclado)");
+          setIsNavbarVisible(false);
+        } else {
+          setIsNavbarVisible(true);
+        }
+      }, 200); // espera 200ms pra garantir que a oscilação pare
     };
 
     window.addEventListener("resize", handleResize);
     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowHeight]);
 
   const handleOpenMenu = () => {
     setIsNavbarVisible(true);
