@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import styles from "./styles/global.module.scss";
 import { Home } from "./Components/Home/Home";
 import { Navbar } from "./Components/Navbar/Navbar";
@@ -14,75 +13,67 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [windowHeight] = useState(window.innerHeight);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   useEffect(() => {
-    let timeout: number;
-
     const handleResize = () => {
-      clearTimeout(timeout);
+      const newHeight = window.innerHeight;
+      const diff = Math.abs(newHeight - windowHeight);
 
-      timeout = setTimeout(() => {
-        const currentHeight = window.innerHeight;
-        const diff = Math.abs(currentHeight - windowHeight);
+      // Verifica se a diferença na altura é típica de abertura do teclado (geralmente entre 150-200px)
+      if (diff > 150 && diff < 200) {
+        setIsKeyboardOpen(true);
+        return; // Ignora o evento de resize enquanto o teclado estiver aberto
+      } else {
+        setIsKeyboardOpen(false);
+      }
 
-        console.log(
-          `windowHeight: ${windowHeight}, innerHeight: ${currentHeight}, diff: ${diff}`
-        );
-
-        if (diff > 10 && diff < 100) {
-          console.log("Teclado provavelmente aberto, não fecha navbar");
-          return;
-        }
-
+      // Verifica se o tamanho da janela é menor que 768px e se o teclado não está aberto
+      if (newHeight < windowHeight && !isKeyboardOpen) {
         if (window.innerWidth < 768) {
-          console.log("Fechando navbar (não foi teclado)");
           setIsNavbarVisible(false);
-        } else {
-          setIsNavbarVisible(true);
         }
-      }, 2000); // espera 200ms pra garantir que a oscilação pare
+      } else {
+        setIsNavbarVisible(true);
+      }
+
+      setWindowHeight(newHeight);
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
 
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [windowHeight]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowHeight, isKeyboardOpen]);
 
   const handleOpenMenu = () => {
     setIsNavbarVisible(true);
   };
 
   return (
-    <>
-      <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
-        <div className={styles.body}>
-          {isNavbarVisible === false ? (
-            <FaBars className={styles.bars} onClick={handleOpenMenu} />
-          ) : null}
-          <Provider store={store}>
-            <Router>
-              <div className={styles.nav}>
-                {isNavbarVisible && (
-                  <Navbar onclose={() => setIsNavbarVisible(false)} />
-                )}
-              </div>
+    <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
+      <div className={styles.body}>
+        {isNavbarVisible === false ? (
+          <FaBars className={styles.bars} onClick={handleOpenMenu} />
+        ) : null}
+        <Provider store={store}>
+          <Router>
+            <div className={styles.nav}>
+              {isNavbarVisible && (
+                <Navbar onclose={() => setIsNavbarVisible(false)} />
+              )}
+            </div>
 
-              <Routes>
-                <Route path="" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/post/:id" element={<PostComponent />} />
-                <Route path="/perfil/:username" element={<Perfil />} />
-              </Routes>
-            </Router>
-          </Provider>
-        </div>{" "}
-      </GoogleOAuthProvider>
-    </>
+            <Routes>
+              <Route path="" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/post/:id" element={<PostComponent />} />
+              <Route path="/perfil/:username" element={<Perfil />} />
+            </Routes>
+          </Router>
+        </Provider>
+      </div>
+    </GoogleOAuthProvider>
   );
 }
 
