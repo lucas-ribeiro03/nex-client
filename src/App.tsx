@@ -17,11 +17,12 @@ function App() {
   const lastWindowHeight = useRef(window.innerHeight);
 
   useEffect(() => {
+    console.log(innerHeight);
     const handleResize = () => {
       const currentHeight = window.innerHeight;
 
       // Se a altura caiu significativamente, provavelmente é o teclado
-      if (lastWindowHeight.current - currentHeight > 150) {
+      if (lastWindowHeight.current - currentHeight > 50) {
         console.log("Teclado provavelmente abriu — ignorando resize");
         return;
       }
@@ -31,7 +32,6 @@ function App() {
         console.log("Navbar oculta");
       } else {
         setIsNavbarVisible(true);
-        console.log("Navbar visível");
       }
 
       // Atualiza a altura
