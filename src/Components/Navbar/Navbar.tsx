@@ -61,7 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
             <a
               href="/"
               onClick={() => {
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 480) {
                   onclose();
                 }
               }}
@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   navigate(`/perfil/${username}`);
-                  if (window.innerWidth < 768) {
+                  if (window.innerWidth < 480) {
                     onclose();
                   }
                 }}
@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/login");
-                  if (window.innerWidth < 768) {
+                  if (window.innerWidth < 480) {
                     onclose();
                   }
                 }}
