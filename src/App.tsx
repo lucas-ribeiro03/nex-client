@@ -18,6 +18,7 @@ function App() {
 
   useEffect(() => {
     console.log(windowHeight);
+    console.log(window.innerHeight);
     if (windowHeight > window.innerHeight) return console.log("teclado abriu");
     const handleResize = () => {
       if (window.innerWidth < 768) {
