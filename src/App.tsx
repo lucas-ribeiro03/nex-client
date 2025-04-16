@@ -21,12 +21,10 @@ function App() {
       console.log(windowHeight);
       console.log(window.innerHeight);
       console.log(`valor: ${window.innerHeight - windowHeight}`);
-      if (
-        window.innerHeight - windowHeight > 5 &&
-        window.innerHeight - windowHeight < 50
-      ) {
+      const diff = Math.abs(window.innerHeight - windowHeight);
+      if (diff > 10 && diff < 50) {
         return console.log(
-          `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
+          `a diferença foi de ${diff}, sendo assim teclado aberto`
         );
       }
 
