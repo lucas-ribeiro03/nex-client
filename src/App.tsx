@@ -19,6 +19,7 @@ function App() {
   useEffect(() => {
     console.log(windowHeight);
     console.log(window.innerHeight);
+    console.log(window.innerHeight - windowHeight);
     if (window.innerHeight - windowHeight > 50) {
       return console.log(
         `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
