@@ -17,24 +17,24 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      // Só atualize a visibilidade da navbar se houver mudança no tamanho da tela
+      if (window.innerWidth < 768 && isNavbarVisible) {
         setIsNavbarVisible(false);
-        console.log("o problema tá aqui ");
-      } else {
+        console.log("Navbar oculta devido ao tamanho da tela");
+      } else if (window.innerWidth >= 768 && !isNavbarVisible) {
         setIsNavbarVisible(true);
-        console.log("o problema tá aqui ");
+        console.log("Navbar visível devido ao tamanho da tela");
       }
     };
-    handleResize();
+
+    handleResize(); // Chama ao montar o componente
+
     window.addEventListener("resize", handleResize);
-    console.log("o problema tá aqui ");
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleOpenMenu = () => {
-    setIsNavbarVisible(true);
-  };
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isNavbarVisible]); // Reexecução da função somente se a visibilidade da navbar mudar
 
   return (
     <>
