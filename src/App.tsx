@@ -17,6 +17,10 @@ function App() {
   const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
+    console.log(`window inner: ${window.innerHeight}`);
+    console.log(`windowheight: ${windowHeight}`);
+    console.log(`valor final: ${window.innerHeight - windowHeight}`);
+
     if (
       window.innerHeight - windowHeight < 10 &&
       window.innerHeight - windowHeight > 50
