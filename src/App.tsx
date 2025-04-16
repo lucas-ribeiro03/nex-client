@@ -26,9 +26,12 @@ function App() {
       console.log("current: ", currentHeight);
 
       // Se a altura caiu significativamente, provavelmente é o teclado
-      if (lastWindowHeight.current > currentHeight) {
-        console.log("Teclado provavelmente abriu — ignorando resize");
-        return;
+      if (
+        lastWindowHeight.current > currentHeight ||
+        lastWindowHeight.current === currentHeight ||
+        lastWindowHeight.current < currentHeight
+      ) {
+        return console.log("Teclado provavelmente abriu — ignorando resize");
       }
 
       if (window.innerWidth < 768) {
