@@ -17,18 +17,19 @@ function App() {
   const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    console.log(`window inner: ${window.innerHeight}`);
-    console.log(`windowheight: ${windowHeight}`);
-    console.log(`valor final: ${window.innerHeight - windowHeight}`);
-
-    if (
-      window.innerHeight - windowHeight < 10 &&
-      window.innerHeight - windowHeight > 50
-    ) {
-      setTimeout(() => {}, 3000);
-      return console.log("teclado abriu");
-    }
     const handleResize = () => {
+      console.log("entrei no handle resize");
+      console.log(`window inner: ${window.innerHeight}`);
+      console.log(`windowheight: ${windowHeight}`);
+      console.log(`valor final: ${window.innerHeight - windowHeight}`);
+
+      if (
+        window.innerHeight - windowHeight < 10 &&
+        window.innerHeight - windowHeight > 50
+      ) {
+        setTimeout(() => {}, 3000);
+        return console.log("teclado abriu");
+      }
       if (window.innerWidth < 768) {
         setIsNavbarVisible(false);
       } else {
