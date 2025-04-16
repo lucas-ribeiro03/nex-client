@@ -20,6 +20,9 @@ function App() {
     console.log(innerHeight);
     const handleResize = () => {
       const currentHeight = window.innerHeight;
+      console.log("last.current: ", lastWindowHeight.current);
+      console.log("last: ", lastWindowHeight);
+      console.log("current: ", currentHeight);
 
       // Se a altura caiu significativamente, provavelmente é o teclado
       if (lastWindowHeight.current - currentHeight > 50) {
