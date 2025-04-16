@@ -9,23 +9,37 @@ import { store } from "./redux/store";
 import { PostComponent } from "./Components/Post/PostComponent";
 import { Perfil } from "./Components/Perfil/Perfil";
 import { FaBars } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const lastWindowHeight = useRef(window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
+      const currentHeight = window.innerHeight;
+
+      // Se a altura caiu significativamente, provavelmente é o teclado
+      if (lastWindowHeight.current - currentHeight > 150) {
+        console.log("Teclado provavelmente abriu — ignorando resize");
+        return;
+      }
+
       if (window.innerWidth < 768) {
-        console.log("o problema tá aqui ");
+        setIsNavbarVisible(false);
+        console.log("Navbar oculta");
       } else {
         setIsNavbarVisible(true);
+        console.log("Navbar visível");
       }
+
+      // Atualiza a altura
+      lastWindowHeight.current = currentHeight;
     };
-    handleResize();
+
     window.addEventListener("resize", handleResize);
-    console.log("o problema tá aqui ");
+    handleResize(); // chama uma vez no início
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
