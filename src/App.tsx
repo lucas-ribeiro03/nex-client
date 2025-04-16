@@ -21,7 +21,10 @@ function App() {
       console.log(windowHeight);
       console.log(window.innerHeight);
       console.log(`valor: ${window.innerHeight - windowHeight}`);
-      if (window.innerHeight - windowHeight < 50) {
+      if (
+        window.innerHeight - windowHeight > 5 &&
+        window.innerHeight - windowHeight < 50
+      ) {
         return console.log(
           `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
         );
