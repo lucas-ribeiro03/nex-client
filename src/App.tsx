@@ -14,7 +14,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     console.log(windowHeight);
