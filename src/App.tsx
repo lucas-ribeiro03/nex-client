@@ -36,6 +36,10 @@ function App() {
     };
   }, [isNavbarVisible]); // Reexecução da função somente se a visibilidade da navbar mudar
 
+  const handleOpenMenu = () => {
+    setIsNavbarVisible(true);
+  };
+
   return (
     <>
       <GoogleOAuthProvider clientId="531316774585-thhst1sop72gu9o3ib3kur6f0nmep4j5.apps.googleusercontent.com">
