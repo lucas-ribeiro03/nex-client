@@ -22,6 +22,9 @@ function App() {
     if (windowHeight > window.innerHeight) return console.log("teclado abriu");
     const handleResize = () => {
       if (window.innerWidth < 768) {
+        console.log(
+          `entrou no evento pra fechar a navbar window: ${windowHeight}, inner: ${window.innerHeight}`
+        );
         setIsNavbarVisible(false);
       } else {
         setIsNavbarVisible(true);
