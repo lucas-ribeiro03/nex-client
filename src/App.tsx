@@ -19,7 +19,11 @@ function App() {
   useEffect(() => {
     console.log(windowHeight);
     console.log(window.innerHeight);
-    if (windowHeight > window.innerHeight) return console.log("teclado abriu");
+    if (window.innerHeight - windowHeight > 50) {
+      return console.log(
+        `inner menos window é menor que 50 ainda, ${window.innerHeight} ${windowHeight}`
+      );
+    }
     const handleResize = () => {
       if (window.innerWidth < 768) {
         console.log(
