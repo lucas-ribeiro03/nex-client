@@ -17,19 +17,15 @@ function App() {
   const [windowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
+    if (
+      window.innerHeight - windowHeight < 10 &&
+      window.innerHeight - windowHeight > 50
+    ) {
+      setTimeout(() => {}, 3000);
+      return console.log("teclado abriu");
+    }
     const handleResize = () => {
-      console.log(windowHeight);
-      console.log(window.innerHeight);
-      console.log(`valor: ${window.innerHeight - windowHeight}`);
-      const diff = Math.abs(window.innerHeight - windowHeight);
-      if (diff > 10 && diff < 50) {
-        return console.log(`a diferença foi de`);
-      }
-
       if (window.innerWidth < 768) {
-        console.log(
-          `entrou no evento pra fechar a navbar window: ${windowHeight}, inner: ${window.innerHeight}`
-        );
         setIsNavbarVisible(false);
       } else {
         setIsNavbarVisible(true);
@@ -37,6 +33,7 @@ function App() {
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
