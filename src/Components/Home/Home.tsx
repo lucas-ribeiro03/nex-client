@@ -190,13 +190,15 @@ export const Home: React.FC = () => {
     <div className={styles.body}>
       <div className={styles.searchInput}>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Procurar usuário"
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-          />
-          <FaSearch />
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              placeholder="Procurar usuário"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+            />
+            <FaSearch />
+          </div>
         </form>
         {search && (
           <div className={styles.suggestions}>

@@ -13,8 +13,11 @@
   min-height: 100vh;
 
   .searchInput {
-    position: relative;
     width: 50%;
+
+    .inputBox {
+      position: relative;
+    }
 
     input {
       padding: 0.4rem 1rem;
@@ -38,7 +41,14 @@
     }
 
     .suggestionItem {
-      background: red;
+      padding: 0.5rem;
+      border: 1px solid #55555525;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        background: #adadad38;
+      }
     }
   }
 
