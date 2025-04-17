@@ -50,7 +50,9 @@ export const Home: React.FC = () => {
     const getFollows = async () => {
       if (!user) return;
       const response = await axios.get(`${apiUrl}/users/${user}/followers`, {
-        headers: { accessToken: localStorage.getItem("token") },
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
       });
 
       const followingIds = response.data.following.map(

@@ -34,7 +34,7 @@ export const Follows: React.FC<FollowsProps> = ({ onClose }) => {
       );
     };
     getFollowers();
-  }, []);
+  }, [apiUrl, username]);
 
   return (
     <div className={styles.mdFollowsBody}>
