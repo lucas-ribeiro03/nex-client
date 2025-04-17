@@ -1,0 +1,25 @@
+.mdFollowsBody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+  z-index: 1000000000000;
+
+  .mdFollowsContainer {
+    background: #000;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(25%);
+    width: 200px;
+    height: 200px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
