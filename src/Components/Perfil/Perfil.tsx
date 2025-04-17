@@ -9,6 +9,7 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { FaTrashAlt } from "react-icons/fa";
 
 export const Perfil: React.FC = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [follows, setFollows] = useState({
     follower: 0,
@@ -32,14 +33,11 @@ export const Perfil: React.FC = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/auth/${username}`,
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/auth/${username}`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
 
       if (response.data.state === "Owner") {
         setMode("Owner");
@@ -64,14 +62,11 @@ export const Perfil: React.FC = () => {
   }, [username]);
   useEffect(() => {
     const checkLikes = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/postLikes`,
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/postLikes`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
       const postsLikedArray = response.data.map((post: { postId: string }) => {
         return post.postId;
       });
@@ -83,7 +78,7 @@ export const Perfil: React.FC = () => {
   useEffect(() => {
     const getFollows = async () => {
       const response = await axios.get(
-        `https://nex-client-production.up.railway.app/users/${username}/followers`,
+        `${apiUrl}/users/${username}/followers`,
         { headers: { accessToken: localStorage.getItem("token") } }
       );
 
@@ -98,7 +93,7 @@ export const Perfil: React.FC = () => {
     const getPosts = async () => {
       try {
         const response = await axios.get(
-          `https://nex-client-production.up.railway.app/posts/userPosts/${username}`,
+          `${apiUrl}/posts/userPosts/${username}`,
           {
             headers: {
               accessToken: localStorage.getItem("token"),
@@ -116,7 +111,7 @@ export const Perfil: React.FC = () => {
 
   const handleFollowUser = async (id: string) => {
     const response = await axios.post(
-      `https://nex-client-production.up.railway.app/users/${id}/follow`,
+      `${apiUrl}/users/${id}/follow`,
       {},
       {
         headers: {
@@ -133,14 +128,11 @@ export const Perfil: React.FC = () => {
   };
 
   const handleUnfollowUser = async (username: string) => {
-    const response = await axios.delete(
-      `https://nex-client-production.up.railway.app/users/${username}`,
-      {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      }
-    );
+    const response = await axios.delete(`${apiUrl}/users/${username}`, {
+      headers: {
+        accessToken: localStorage.getItem("token"),
+      },
+    });
 
     setIsFollowing(
       isFollowing.filter((followingId) => followingId !== response.data)
@@ -149,7 +141,7 @@ export const Perfil: React.FC = () => {
 
   const handleLike = async (id: string) => {
     const response = await axios.post(
-      "https://nex-client-production.up.railway.app/postLikes",
+      `${apiUrl}/postLikes`,
       {
         postId: id,
         userId: "",
@@ -178,14 +170,11 @@ export const Perfil: React.FC = () => {
   };
 
   const handleDislike = async (id: string) => {
-    const response = await axios.delete(
-      `https://nex-client-production.up.railway.app/postLikes/${id}`,
-      {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      }
-    );
+    const response = await axios.delete(`${apiUrl}/postLikes/${id}`, {
+      headers: {
+        accessToken: localStorage.getItem("token"),
+      },
+    });
 
     setLikedPosts((prev) => prev.filter((liked) => liked !== response.data));
 
@@ -203,7 +192,7 @@ export const Perfil: React.FC = () => {
 
   const handleDeletePost = async (id: string) => {
     await axios
-      .delete(`https://nex-client-production.up.railway.app/posts/${id}`, {
+      .delete(`${apiUrl}/posts/${id}`, {
         headers: { accessToken: localStorage.getItem("token") },
       })
       .then(() => navigate(0));

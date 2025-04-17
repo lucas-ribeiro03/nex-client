@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 
 export const PostComponent: React.FC = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [comment, setComment] = useState("");
   const [isLikedPost, setIsLikedPost] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -28,14 +29,11 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const checkLikes = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/postLikes/${id}`,
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/postLikes/${id}`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
       if (response.data.message === "Post Curtido") setIsLikedPost(true);
     };
 
@@ -44,9 +42,7 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const getComments = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/comments/${id}`
-      );
+      const response = await axios.get(`${apiUrl}/comments/${id}`);
 
       setComments(response.data);
     };
@@ -55,9 +51,7 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const getPost = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/posts/${id}`
-      );
+      const response = await axios.get(`${apiUrl}/posts/${id}`);
       setPost(response.data);
     };
     getPost();
@@ -65,14 +59,11 @@ export const PostComponent: React.FC = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const response = await axios.get(
-        "https://nex-client-production.up.railway.app/auth",
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/auth`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
       if (!response.data.error) setUserLogged(response.data.username);
     };
     checkUser();
@@ -81,7 +72,7 @@ export const PostComponent: React.FC = () => {
   const handleSubmitComment = async () => {
     if (comment === "") return toast.error("Comentário não pode estar vazio");
     const response = await axios.post(
-      "https://nex-client-production.up.railway.app/comments",
+      `${apiUrl}/comments`,
       {
         content: comment,
         postId: id,
@@ -100,9 +91,7 @@ export const PostComponent: React.FC = () => {
   };
 
   const handleDeleteComment = async (id: string) => {
-    const response = await axios.delete(
-      `https://nex-client-production.up.railway.app/comments/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/comments/${id}`);
     if (!response.data.error) {
       setComments(comments.filter((comment) => comment.id !== id));
     }
@@ -110,7 +99,7 @@ export const PostComponent: React.FC = () => {
 
   const handleDislike = async (id: string) => {
     await axios
-      .delete(`https://nex-client-production.up.railway.app/postLikes/${id}`, {
+      .delete(`${apiUrl}/postLikes/${id}`, {
         headers: {
           accessToken: localStorage.getItem("token"),
         },
@@ -121,7 +110,7 @@ export const PostComponent: React.FC = () => {
   const handleLike = async () => {
     await axios
       .post(
-        "https://nex-client-production.up.railway.app/postLikes",
+        `${apiUrl}/postLikes`,
         {
           postId: id,
           userId: "",

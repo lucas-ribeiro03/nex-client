@@ -10,6 +10,7 @@ interface MdCreatePostProps {
 }
 
 export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [postContent, setPostContent] = useState("");
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ export const MdCreatePost: React.FC<MdCreatePostProps> = ({ onClose }) => {
     if (!postContent) return toast.error("Post não pode estar vazio");
     await axios
       .post(
-        "https://nex-client-production.up.railway.app/posts",
+        `${apiUrl}/posts`,
         {
           content: postContent,
         },

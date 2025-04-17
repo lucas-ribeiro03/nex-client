@@ -16,6 +16,7 @@ interface NavbarProps {
   onclose: () => void;
 }
 export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
@@ -27,14 +28,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get(
-        "https://nex-client-production.up.railway.app/auth",
-        {
-          headers: {
-            accessToken: localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/auth`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      });
       setUsername(response.data.username);
     };
     if (isLogged) getUser();

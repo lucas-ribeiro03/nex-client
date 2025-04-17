@@ -18,6 +18,7 @@ interface FormData {
 }
 
 export const Login: React.FC = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [passwordVisble, setPasswordVisible] = useState(false);
@@ -34,12 +35,9 @@ export const Login: React.FC = () => {
 
   const checkEmail = async (email: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signup",
-        {
-          email,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/auth/signup`, {
+        email,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       setStep("username");
@@ -50,12 +48,9 @@ export const Login: React.FC = () => {
 
   const checkUsername = async (username: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signup",
-        {
-          username,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/auth/signup`, {
+        username,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       setStep("password");
@@ -66,12 +61,9 @@ export const Login: React.FC = () => {
 
   const checkUser = async (identifier: string) => {
     try {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signin",
-        {
-          identifier,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/auth/signin`, {
+        identifier,
+      });
       if (response.data.error) return toast.error(response.data.error);
       setStep("password");
     } catch (e) {
@@ -80,13 +72,10 @@ export const Login: React.FC = () => {
   };
   const onSubmit = async (data: FormData) => {
     if (mode === "signIn") {
-      const response = await axios.post(
-        "https://nex-client-production.up.railway.app/auth/signin",
-        {
-          identifier: data.identifier,
-          password: data.password,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/auth/signin`, {
+        identifier: data.identifier,
+        password: data.password,
+      });
 
       if (response.data.error) return toast.error(response.data.error);
       localStorage.setItem("token", response.data);
@@ -96,15 +85,12 @@ export const Login: React.FC = () => {
 
     if (mode === "signUp") {
       try {
-        const response = await axios.post(
-          "https://nex-client-production.up.railway.app/auth/signup",
-          {
-            email: data.email,
-            username: data.username,
-            nickname: data.username,
-            password: data.password,
-          }
-        );
+        const response = await axios.post(`${apiUrl}/auth/signup`, {
+          email: data.email,
+          username: data.username,
+          nickname: data.username,
+          password: data.password,
+        });
         if (response.data.error) return toast.error(response.data.error);
         navigate(0);
       } catch (e) {
@@ -124,15 +110,12 @@ export const Login: React.FC = () => {
         }
       );
       const postGoogleUsers = async () => {
-        const response = await axios.post(
-          "https://nex-client-production.up.railway.app/auth/google",
-          {
-            username: userInfo.data.name,
-            nickname: userInfo.data.name,
-            email: userInfo.data.email,
-            password: userInfo.data.sub,
-          }
-        );
+        const response = await axios.post(`${apiUrl}/auth/google`, {
+          username: userInfo.data.name,
+          nickname: userInfo.data.name,
+          email: userInfo.data.email,
+          password: userInfo.data.sub,
+        });
 
         localStorage.setItem("token", response.data);
         dispatch(saveLogin(true));

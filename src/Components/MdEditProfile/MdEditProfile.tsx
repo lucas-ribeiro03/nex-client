@@ -9,6 +9,7 @@ interface MdEditProfileProps {
 }
 
 export const MdEditProfile: React.FC<MdEditProfileProps> = ({ onClose }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [user, setUser] = useState({
     nickname: "",
     bio: "",
@@ -16,10 +17,9 @@ export const MdEditProfile: React.FC<MdEditProfileProps> = ({ onClose }) => {
   const { username } = useParams();
   useEffect(() => {
     const getUserInfo = async () => {
-      const response = await axios.get(
-        `https://nex-client-production.up.railway.app/auth/${username}`,
-        { headers: { accessToken: localStorage.getItem("token") } }
-      );
+      const response = await axios.get(`${apiUrl}/auth/${username}`, {
+        headers: { accessToken: localStorage.getItem("token") },
+      });
       setUser({
         bio: response.data.user.bio,
         nickname: response.data.user.nickname,
@@ -32,7 +32,7 @@ export const MdEditProfile: React.FC<MdEditProfileProps> = ({ onClose }) => {
     e.preventDefault();
     await axios
       .put(
-        `https://nex-client-production.up.railway.app/auth/`,
+        `${apiUrl}/auth/`,
         {
           nickname: user.nickname,
           bio: user.bio,
