@@ -7,9 +7,16 @@ import { MdEditProfile } from "../MdEditProfile/MdEditProfile";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoChatboxOutline } from "react-icons/io5";
 import { FaTrashAlt } from "react-icons/fa";
+import { Follows } from "../FollowsModal/Follows";
+
+interface Follower {
+  followerId: string;
+}
 
 export const Perfil: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
+  const [userLogged, setUserLogged] = useState("");
+  const [followersModal, setFollowersModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [follows, setFollows] = useState({
     follower: 0,
@@ -85,9 +92,17 @@ export const Perfil: React.FC = () => {
       const follower = response.data.followers.length;
       const following = response.data.following.length;
       setFollows({ follower, following });
+      setIsFollowing((prev) => [
+        ...prev,
+        ...response.data.followers.map(
+          (follower: Follower) => follower.followerId
+        ),
+      ]);
+
+      setUserLogged(response.data.user);
     };
     getFollows();
-  }, [isFollowing, username]);
+  }, [username]);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -216,8 +231,12 @@ export const Perfil: React.FC = () => {
                 style={{ gridArea: "box4" }}
               >{`${follows.following} seguindo`}</span>
               <span
+                onClick={() => setFollowersModal(true)}
                 style={{ gridArea: "box5" }}
               >{`${follows.follower} seguidores`}</span>
+              {followersModal && (
+                <Follows onClose={() => setFollowersModal(false)} />
+              )}
             </nav>
           </div>
           <div className={styles.rightSide}>
@@ -225,7 +244,7 @@ export const Perfil: React.FC = () => {
               <button onClick={() => setIsModalOpen(true)}>
                 Editar perfil
               </button>
-            ) : isFollowing.includes(user.id) ? (
+            ) : isFollowing.includes(userLogged) ? (
               <button onClick={() => handleUnfollowUser(user.username)}>
                 Deixar de seguir
               </button>
