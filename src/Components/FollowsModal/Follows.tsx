@@ -5,7 +5,17 @@ import { IoMdClose } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export const Follows: React.FC = () => {
+interface FollowsProps {
+  onClose: () => void;
+}
+
+interface Follower {
+  followerUser: {
+    username: string;
+  };
+}
+
+export const Follows: React.FC<FollowsProps> = ({ onClose }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { username } = useParams();
 
@@ -19,7 +29,7 @@ export const Follows: React.FC = () => {
       );
       setFollowers(
         response.data.followers.map(
-          (follower) => follower.followerUser.username
+          (follower: Follower) => follower.followerUser.username
         )
       );
     };
@@ -28,7 +38,9 @@ export const Follows: React.FC = () => {
 
   return (
     <div className={styles.mdFollowsBody}>
-      <div className={styles.mdFollowsContainer}>{followers}</div>
+      <div className={styles.mdFollowsContainer}>
+        {followers} <IoMdClose onClick={onClose} />
+      </div>
     </div>
   );
 };
