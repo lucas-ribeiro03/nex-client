@@ -12,6 +12,36 @@
   margin-left: 25%;
   min-height: 100vh;
 
+  .searchInput {
+    position: relative;
+    width: 50%;
+
+    input {
+      padding: 0.4rem 1rem;
+      font-size: 1.15rem;
+      border: none;
+      border-bottom: 1px solid rgba(87, 86, 86, 0.3);
+      outline: none;
+      background: transparent;
+      color: #fff;
+      width: 100%;
+    }
+
+    svg {
+      color: #fff;
+      font-size: 1.5rem;
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .suggestionItem {
+      background: red;
+    }
+  }
+
   .posts {
     width: 100%;
     border: 1px solid rgba(87, 86, 86, 0.3);
