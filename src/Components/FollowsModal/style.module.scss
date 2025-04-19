@@ -16,16 +16,32 @@
     transform: translateX(25%);
     width: 200px;
     height: 200px;
-    padding: 1rem;
+    padding: 1.6rem;
     display: flex;
     flex-direction: column;
     text-align: center;
-    gap: 1rem;
+
+    div {
+      display: flex;
+      gap: 0.6rem;
+      flex-direction: column;
+    }
 
     svg {
       position: absolute;
       font-size: 1.3rem;
+      left: 0.3rem;
+      top: 0.3rem;
       cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .mdFollowsBody {
+    .mdFollowsContainer {
+      left: 25%;
+      transform: translateX(10%);
     }
   }
 }

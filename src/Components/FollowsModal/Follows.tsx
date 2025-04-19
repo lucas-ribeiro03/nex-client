@@ -7,6 +7,8 @@ import axios from "axios";
 
 interface FollowsProps {
   onClose: () => void;
+  showFollowers: boolean;
+  showFollowings: boolean;
 }
 
 interface Follower {
@@ -15,14 +17,25 @@ interface Follower {
   };
 }
 
-export const Follows: React.FC<FollowsProps> = ({ onClose }) => {
+interface Follow {
+  followingUser: {
+    username: string;
+  };
+}
+
+export const Follows: React.FC<FollowsProps> = ({
+  onClose,
+  showFollowers,
+  showFollowings,
+}) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { username } = useParams();
 
   const [followers, setFollowers] = useState<string[]>([]);
+  const [following, setFollowing] = useState<string[]>([]);
 
   useEffect(() => {
-    const getFollowers = async () => {
+    const getFollows = async () => {
       const response = await axios.get(
         `${apiUrl}/users/${username}/followers`,
         { headers: { accessToken: localStorage.getItem("token") } }
@@ -32,14 +45,39 @@ export const Follows: React.FC<FollowsProps> = ({ onClose }) => {
           (follower: Follower) => follower.followerUser.username
         )
       );
+
+      setFollowing(
+        response.data.following.map(
+          (follow: Follow) => follow.followingUser.username
+        )
+      );
     };
-    getFollowers();
+    getFollows();
   }, [apiUrl, username]);
 
   return (
     <div className={styles.mdFollowsBody}>
       <div className={styles.mdFollowsContainer}>
-        {followers} <IoMdClose onClick={onClose} />
+        {showFollowers && (
+          <div className={styles.followersContainer}>
+            <IoMdClose onClick={onClose} />
+            {followers.map((follower) => (
+              <div key={follower} className={styles.follower}>
+                {follower}
+              </div>
+            ))}
+          </div>
+        )}
+        {showFollowings && (
+          <div className={styles.followingsContainer}>
+            <IoMdClose onClick={onClose} />
+            {following.map((follow) => (
+              <div key={follow} className={follow}>
+                {follow}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

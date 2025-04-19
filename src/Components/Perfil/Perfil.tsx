@@ -16,7 +16,9 @@ interface Follower {
 export const Perfil: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [userLogged, setUserLogged] = useState("");
-  const [followersModal, setFollowersModal] = useState(false);
+  const [showFollows, setShowFollows] = useState<
+    "followers" | "following" | null
+  >(null);
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [follows, setFollows] = useState({
     follower: 0,
@@ -227,15 +229,39 @@ export const Perfil: React.FC = () => {
               <span
                 style={{ gridArea: "box3" }}
               >{`Ingressou em ${user.data_entrada}`}</span>
+
+              {/* SPAN FOLLOWINGS */}
               <span
+                className={styles.followings}
+                onClick={() => {
+                  setShowFollows("following");
+                }}
                 style={{ gridArea: "box4" }}
               >{`${follows.following} seguindo`}</span>
+              {showFollows && (
+                <Follows
+                  onClose={() => setShowFollows(null)}
+                  showFollowers={showFollows === "followers"}
+                  showFollowings={showFollows === "following"}
+                />
+              )}
+
+              {/* SPAN FOLLOWERS */}
               <span
-                onClick={() => setFollowersModal(true)}
+                onClick={() => {
+                  setShowFollows("followers");
+                }}
                 style={{ gridArea: "box5" }}
+                className={styles.followers}
               >{`${follows.follower} seguidores`}</span>
-              {followersModal && (
-                <Follows onClose={() => setFollowersModal(false)} />
+              {showFollows && (
+                <Follows
+                  showFollowers={showFollows === "followers"}
+                  showFollowings={showFollows === "following"}
+                  onClose={() => {
+                    setShowFollows(null);
+                  }}
+                />
               )}
             </nav>
           </div>
