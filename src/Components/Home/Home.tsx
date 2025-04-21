@@ -11,12 +11,20 @@ interface Suggestion {
   username: string;
 }
 
+interface WhoLiked {
+  postId: string;
+  user: {
+    username: string;
+  };
+}
+
 export const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
   const [user, setUser] = useState("");
   const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const [whoLiked, setWhoLiked] = useState<WhoLiked[]>([]);
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -29,6 +37,15 @@ export const Home: React.FC = () => {
       });
     };
     getPosts();
+  }, []);
+
+  useEffect(() => {
+    const getWhoLiked = async () => {
+      const response = await axios.get(`${apiUrl}/postlikes/wholiked`);
+
+      setWhoLiked(response.data);
+    };
+    getWhoLiked();
   }, []);
 
   useEffect(() => {
@@ -172,6 +189,10 @@ export const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(whoLiked);
+  }, [whoLiked]);
+
+  useEffect(() => {
     const debounceTimer = setTimeout(async () => {
       if (search.trim() === "") return setSuggestions([]);
       try {
@@ -218,56 +239,70 @@ export const Home: React.FC = () => {
       </div>
       <div className={styles.posts}>
         {posts
-          ? posts.map((post, key) => (
-              <div key={key} className={styles.postContainer}>
-                <div className={styles.postContainerHeader}>
-                  <h3 onClick={() => handleGetUser(post.user.username)}>
-                    {post.user.username}
-                  </h3>
-                  {user === post.user.username ? null : isFollowing.includes(
-                      post.userId
-                    ) ? (
-                    <span
-                      title="Deixar de seguir"
-                      onClick={() => handleUnfollowUser(post.user.username)}
-                    >
-                      Seguindo <FaCheck />
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => handleFollowUser(post.user.username)}
-                    >
-                      <FaUserPlus />
-                    </button>
-                  )}
-                </div>
+          ? posts.map((post, key) => {
+              const firstLike = whoLiked.find(
+                (first) => post.id === first.postId
+              );
 
-                <p>{post.content}</p>
-
-                <div className={styles.reactions}>
-                  <IoChatboxOutline
-                    className={styles.commentBtn}
-                    onClick={() => handleClick(post.id)}
-                  />
-
-                  <div className={styles.likeContainer}>
-                    {likedPosts.includes(post.id) ? (
-                      <IoMdHeart
-                        style={{ fill: "red" }}
-                        className={styles.heartBtn}
-                        onClick={() => handleDislike(post.id)}
-                      />
+              return (
+                <div key={key} className={styles.postContainer}>
+                  <div className={styles.postContainerHeader}>
+                    <h3 onClick={() => handleGetUser(post.user.username)}>
+                      {post.user.username}
+                    </h3>
+                    {user === post.user.username ? null : isFollowing.includes(
+                        post.userId
+                      ) ? (
+                      <span
+                        title="Deixar de seguir"
+                        onClick={() => handleUnfollowUser(post.user.username)}
+                      >
+                        Seguindo <FaCheck />
+                      </span>
                     ) : (
-                      <IoMdHeartEmpty
-                        className={styles.heartBtn}
-                        onClick={() => handleLike(post.id)}
-                      />
+                      <button
+                        onClick={() => handleFollowUser(post.user.username)}
+                      >
+                        <FaUserPlus />
+                      </button>
                     )}
-                    <span>{post.likes.length}</span>
+                  </div>
+
+                  <p>{post.content}</p>
+
+                  <div className={styles.reactions}>
+                    <IoChatboxOutline
+                      className={styles.commentBtn}
+                      onClick={() => handleClick(post.id)}
+                    />
+
+                    <div className={styles.likeContainer}>
+                      {likedPosts.includes(post.id) ? (
+                        <IoMdHeart
+                          style={{ fill: "red" }}
+                          className={styles.heartBtn}
+                          onClick={() => handleDislike(post.id)}
+                        />
+                      ) : (
+                        <IoMdHeartEmpty
+                          className={styles.heartBtn}
+                          onClick={() => handleLike(post.id)}
+                        />
+                      )}
+
+                      {firstLike && (
+                        <span>
+                          Curtido por {firstLike.user.username}{" "}
+                          {post.likes.length > 1 ? (
+                            <span>e mais {post.likes.length - 1}</span>
+                          ) : null}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           : null}
       </div>
     </div>

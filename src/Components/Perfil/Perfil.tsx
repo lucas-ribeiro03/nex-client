@@ -53,6 +53,7 @@ export const Perfil: React.FC = () => {
       } else {
         setMode("Viewer");
       }
+
       const createdAt = new Date(response.data.user.createdAt);
       const formattedDate = createdAt.toLocaleDateString("pt-BR", {
         day: "2-digit",
@@ -136,7 +137,6 @@ export const Perfil: React.FC = () => {
         },
       }
     );
-
     setIsFollowing((prev) => [...prev, response.data.followingId]);
   };
 
@@ -214,6 +214,9 @@ export const Perfil: React.FC = () => {
       })
       .then(() => navigate(0));
   };
+
+  console.log(userLogged);
+  console.log(isFollowing);
 
   return (
     <>
