@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { IoChatboxOutline } from "react-icons/io5";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { FaUserPlus, FaCheck, FaSearch } from "react-icons/fa";
+import { WhoLikedModal } from "../WhoLikedModal/WhoLikedModal";
 
 interface Suggestion {
   username: string;
@@ -19,6 +20,9 @@ interface WhoLiked {
 }
 
 export const Home: React.FC = () => {
+  const [whoLikedModalPostId, setWhoLikedModalPostId] = useState<string | null>(
+    null
+  );
   const [posts, setPosts] = useState<Post[]>([]);
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState<string[]>([]);
@@ -37,7 +41,7 @@ export const Home: React.FC = () => {
       });
     };
     getPosts();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     const getWhoLiked = async () => {
@@ -46,7 +50,7 @@ export const Home: React.FC = () => {
       setWhoLiked(response.data);
     };
     getWhoLiked();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     const authUser = async () => {
@@ -57,7 +61,7 @@ export const Home: React.FC = () => {
       setUser(response.data.username);
     };
     authUser();
-  }, []);
+  }, [apiUrl]);
 
   const handleClick = async (id: string) => {
     navigate(`/post/${id}`);
@@ -81,7 +85,7 @@ export const Home: React.FC = () => {
       setIsFollowing(followingIds);
     };
     getFollows();
-  }, [user]);
+  }, [apiUrl, user]);
 
   const handleFollowUser = async (id: string) => {
     const response = await axios.post(
@@ -132,7 +136,7 @@ export const Home: React.FC = () => {
       setLikedPosts(postsLikedArray);
     };
     checkLikes();
-  }, []);
+  }, [apiUrl]);
 
   const handleDislike = async (id: string) => {
     const response = await axios.delete(`${apiUrl}/postLikes/${id}`, {
@@ -207,7 +211,7 @@ export const Home: React.FC = () => {
     });
 
     return () => clearTimeout(debounceTimer);
-  }, [search]);
+  }, [search, apiUrl]);
 
   return (
     <div className={styles.body}>
@@ -291,12 +295,23 @@ export const Home: React.FC = () => {
                       )}
 
                       {firstLike && (
-                        <span>
+                        <span
+                          onClick={() => setWhoLikedModalPostId(post.id)}
+                          className={styles.wholiked}
+                          style={{ cursor: "pointer" }}
+                        >
                           Curtido por {firstLike.user.username}{" "}
                           {post.likes.length > 1 ? (
                             <span>e mais {post.likes.length - 1}</span>
                           ) : null}
                         </span>
+                      )}
+
+                      {whoLikedModalPostId === post.id && (
+                        <WhoLikedModal
+                          postId={post.id}
+                          onClose={() => setWhoLikedModalPostId(null)}
+                        />
                       )}
                     </div>
                   </div>
