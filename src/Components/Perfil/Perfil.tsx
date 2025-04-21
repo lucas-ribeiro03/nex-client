@@ -9,11 +9,18 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoChatboxOutline } from "react-icons/io5";
 import { FaTrashAlt } from "react-icons/fa";
 import { Follows } from "../FollowsModal/Follows";
+import { WhoLikedModal } from "../WhoLikedModal/WhoLikedModal";
 
 interface Follower {
   followerId: string;
 }
 
+interface WhoLiked {
+  postId: string;
+  user: {
+    username: string;
+  };
+}
 export const Perfil: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [userLogged, setUserLogged] = useState("");
@@ -34,9 +41,14 @@ export const Perfil: React.FC = () => {
     id: "",
     nickname: "",
   });
+
+  const [whoLikedModalPostId, setWhoLikedModalPostId] = useState<string | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [mode, setMode] = useState<"Viewer" | "Owner">();
+  const [whoLiked, setWhoLiked] = useState<WhoLiked[]>([]);
 
   const { username } = useParams();
   const navigate = useNavigate();
@@ -71,6 +83,16 @@ export const Perfil: React.FC = () => {
     };
     getUser();
   }, [username]);
+
+  useEffect(() => {
+    const getWhoLiked = async () => {
+      const response = await axios.get(`${apiUrl}/postlikes/wholiked`);
+
+      setWhoLiked(response.data);
+    };
+    getWhoLiked();
+  }, [apiUrl]);
+
   useEffect(() => {
     const checkLikes = async () => {
       const response = await axios.get(`${apiUrl}/postLikes`, {
@@ -216,9 +238,6 @@ export const Perfil: React.FC = () => {
       .then(() => navigate(0));
   };
 
-  console.log(userLogged);
-  console.log(isFollowing);
-
   return (
     <>
       <div className={styles.perfilBody}>
@@ -294,40 +313,63 @@ export const Perfil: React.FC = () => {
           Posts
         </span>
         <div className={styles.userPosts}>
-          {userPosts.map((userPost, key) => (
-            <div key={key} className={styles.userPost}>
-              {mode === "Owner" ? (
-                <FaTrashAlt
-                  onClick={() => handleDeletePost(userPost.id)}
-                  className={styles.trash}
-                />
-              ) : null}
-              <h3>{user.username}</h3>
-              <p>{userPost.content}</p>
-              <div className={styles.reactions}>
-                <IoChatboxOutline
-                  className={styles.commentBtn}
-                  onClick={() => handleClick(userPost.id)}
-                />
+          {userPosts.map((userPost, key) => {
+            const firstLike = whoLiked.find(
+              (first) => userPost.id === first.postId
+            );
+            return (
+              <div key={key} className={styles.userPost}>
+                {mode === "Owner" ? (
+                  <FaTrashAlt
+                    onClick={() => handleDeletePost(userPost.id)}
+                    className={styles.trash}
+                  />
+                ) : null}
+                <h3>{user.username}</h3>
+                <p>{userPost.content}</p>
+                <div className={styles.reactions}>
+                  <IoChatboxOutline
+                    className={styles.commentBtn}
+                    onClick={() => handleClick(userPost.id)}
+                  />
 
-                <div className={styles.likeContainer}>
-                  {likedPosts.includes(userPost.id) ? (
-                    <IoMdHeart
-                      style={{ fill: "red" }}
-                      className={styles.heartBtn}
-                      onClick={() => handleDislike(userPost.id)}
-                    />
-                  ) : (
-                    <IoMdHeartEmpty
-                      className={styles.heartBtn}
-                      onClick={() => handleLike(userPost.id)}
-                    />
-                  )}
-                  {userPost.likes.length}
+                  <div className={styles.likeContainer}>
+                    {likedPosts.includes(userPost.id) ? (
+                      <IoMdHeart
+                        style={{ fill: "red" }}
+                        className={styles.heartBtn}
+                        onClick={() => handleDislike(userPost.id)}
+                      />
+                    ) : (
+                      <IoMdHeartEmpty
+                        className={styles.heartBtn}
+                        onClick={() => handleLike(userPost.id)}
+                      />
+                    )}
+                    {firstLike && (
+                      <span
+                        onClick={() => setWhoLikedModalPostId(userPost.id)}
+                        className={styles.wholiked}
+                        style={{ cursor: "pointer" }}
+                      >
+                        Curtido por {firstLike.user.username}
+                        {userPost.likes.length > 1 ? (
+                          <span>e mais {userPost.likes.length - 1}</span>
+                        ) : null}
+                      </span>
+                    )}
+
+                    {whoLikedModalPostId === userPost.id && (
+                      <WhoLikedModal
+                        postId={userPost.id}
+                        onClose={() => setWhoLikedModalPostId(null)}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {mode === "Owner" && isModalOpen && (

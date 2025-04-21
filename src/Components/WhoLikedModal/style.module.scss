@@ -10,24 +10,22 @@
 
   .mdWhoLikedContainer {
     background: #000;
-    position: absolute;
+    position: relative;
     top: 15%;
     left: 50%;
     transform: translateX(25%);
     width: 200px;
     height: 200px;
-    padding: 1.6rem;
+    padding: 0.4rem 1rem;
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
     border-radius: 6px;
 
     h3 {
       font-size: 0.9rem;
-      position: absolute;
-      top: 0.4rem;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-bottom: 0.5rem;
     }
 
     svg {
