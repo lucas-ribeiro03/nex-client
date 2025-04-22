@@ -31,11 +31,13 @@ export const Notifications: React.FC = () => {
   }, []);
 
   const markAsRead = async (id: string) => {
-    const response = await axios.put(
-      `${apiUrl}/notifications/:id`,
-      { id },
-      { headers: { accessToken: localStorage.getItem("token") } }
-    );
+    await axios
+      .put(
+        `${apiUrl}/notifications/:id`,
+        { id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
     setNotifications((prev) =>
       prev.map((notification) =>
         notification.id === id
