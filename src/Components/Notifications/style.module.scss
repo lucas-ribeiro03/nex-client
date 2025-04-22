@@ -42,3 +42,23 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .body {
+    width: 100%;
+    margin-left: 0;
+    .notificationContainer {
+      .notificationItem {
+        font-size: 0.8rem;
+
+        .read {
+          font-size: 0.8rem;
+          right: 0.3rem;
+        }
+        svg {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

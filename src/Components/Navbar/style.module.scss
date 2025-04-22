@@ -165,3 +165,12 @@
     left: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .notificationLink {
+    .notificationsLength {
+      left: -1rem;
+      top: 0;
+    }
+  }
+}
