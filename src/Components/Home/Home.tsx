@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Post } from "../../data/interfaces";
@@ -19,6 +20,11 @@ interface WhoLiked {
   };
 }
 
+interface Comments {
+  userId: string;
+  postId: string;
+}
+
 export const Home: React.FC = () => {
   const [whoLikedModalPostId, setWhoLikedModalPostId] = useState<string | null>(
     null
@@ -31,17 +37,26 @@ export const Home: React.FC = () => {
   const [whoLiked, setWhoLiked] = useState<WhoLiked[]>([]);
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [comments, setComments] = useState<Comments[]>([]);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const getPosts = async () => {
       axios.get(`${apiUrl}/posts`).then((response) => {
         setPosts(response.data);
-        console.log(response.data);
       });
     };
     getPosts();
   }, [apiUrl]);
+
+  useEffect(() => {
+    const getComments = async () => {
+      const response = await axios.get(`${apiUrl}/comments`);
+      setComments(response.data);
+    };
+
+    getComments();
+  }, []);
 
   useEffect(() => {
     const getWhoLiked = async () => {
@@ -204,7 +219,6 @@ export const Home: React.FC = () => {
           username: search,
         });
         setSuggestions(response.data);
-        console.log(response);
       } catch (e) {
         console.log(e);
       }
@@ -248,6 +262,13 @@ export const Home: React.FC = () => {
                 (first) => post.id === first.postId
               );
 
+              let commentsCounter = 0;
+              {
+                comments.map((comment) =>
+                  comment.postId === post.id ? commentsCounter++ : null
+                );
+              }
+
               return (
                 <div key={key} className={styles.postContainer}>
                   <div className={styles.postContainerHeader}>
@@ -279,6 +300,7 @@ export const Home: React.FC = () => {
                       className={styles.commentBtn}
                       onClick={() => handleClick(post.id)}
                     />
+                    <span>{commentsCounter}</span>
 
                     <div className={styles.likeContainer}>
                       {likedPosts.includes(post.id) ? (
