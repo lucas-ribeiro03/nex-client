@@ -35,3 +35,12 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .mdWhoLikedBody {
+    .mdWhoLikedContainer {
+      transform: translateX(0);
+      left: 25%;
+    }
+  }
+}
