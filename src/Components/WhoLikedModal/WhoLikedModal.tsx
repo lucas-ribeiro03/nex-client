@@ -38,11 +38,6 @@ export const WhoLikedModal: React.FC<WhoLikedModalProps> = ({
           username: userWhoLiked.user.username,
         }))
       );
-      console.log(
-        response.data.map((userWhoLiked: UserWhoLiked) => ({
-          username: userWhoLiked.user.username,
-        }))
-      );
     };
 
     getWhoLiked();

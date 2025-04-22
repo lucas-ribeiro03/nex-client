@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./style.module.scss";
 import { AiFillHome } from "react-icons/ai";
 import { IoMdPerson } from "react-icons/io";
@@ -11,15 +12,21 @@ import { RootReducer } from "../../redux/root-reducer";
 import { IoMdClose } from "react-icons/io";
 import axios from "axios";
 import { saveLogin } from "../../redux/isLoggedReducer/isLogged-slice";
+import { FaBell } from "react-icons/fa";
 
 interface NavbarProps {
   onclose: () => void;
+}
+
+interface Notification {
+  isRead: boolean;
 }
 export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
+  const [notificationsAmount, setNotificationsAmount] = useState([]);
   const dispatch = useDispatch();
 
   const { isLogged } = useSelector(
@@ -37,6 +44,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
     };
     if (isLogged) getUser();
   }, [isLogged]);
+
+  useEffect(() => {
+    const getNotifications = async () => {
+      const response = await axios.get(`${apiUrl}/notifications`, {
+        headers: { accessToken: localStorage.getItem("token") },
+      });
+      const notReadNotifications = response.data.filter(
+        (notification: Notification) => notification.isRead !== true
+      );
+      setNotificationsAmount(notReadNotifications);
+    };
+
+    getNotifications();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -77,7 +98,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                   navigate(`/perfil/${username}`);
                   if (window.innerWidth < 480) {
                     onclose();
-                    console.log("o problema tá aqui ");
                   }
                 }}
               >
@@ -92,7 +112,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
                   navigate("/login");
                   if (window.innerWidth < 480) {
                     onclose();
-                    console.log("o problema tá aqui ");
                   }
                 }}
               >
@@ -101,7 +120,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
               </a>
             )}
           </li>
-          <li></li>
+          <li>
+            <a
+              className={styles.notificationLink}
+              href=""
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/notifications");
+                if (window.innerWidth < 480) {
+                  onclose();
+                }
+              }}
+            >
+              <div className={styles.notificationsLength}>
+                {notificationsAmount.length}
+              </div>
+              <FaBell />
+              Notificações
+            </a>
+          </li>
         </ul>
 
         <button onClick={() => setIsModalOpen(true)}>Postar</button>

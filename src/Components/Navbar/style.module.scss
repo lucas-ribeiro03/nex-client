@@ -117,6 +117,25 @@
   }
 }
 
+.notificationLink {
+  position: relative;
+  .notificationsLength {
+    background: #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 0.9rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 /* Botão para abrir/fechar menu mobile (adicione no HTML) */
 .mobile-menu-toggle {
   display: none;

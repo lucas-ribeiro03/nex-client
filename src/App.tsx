@@ -12,6 +12,7 @@ import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useWindowSize } from "./hooks/useWindowSize";
+import { Notifications } from "./Components/Notifications/Notifications";
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -48,6 +49,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/post/:id" element={<PostComponent />} />
               <Route path="/perfil/:username" element={<Perfil />} />
+              <Route path="/notifications" element={<Notifications />} />
             </Routes>
           </Router>
         </Provider>

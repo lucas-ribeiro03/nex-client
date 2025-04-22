@@ -114,6 +114,14 @@ export const Home: React.FC = () => {
     );
 
     setIsFollowing((prev) => [...prev, response.data.followingId]);
+
+    await axios
+      .post(
+        `${apiUrl}/notifications/follow`,
+        { username: id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
   };
 
   const handleUnfollowUser = async (username: string) => {
@@ -201,15 +209,19 @@ export const Home: React.FC = () => {
           : post
       )
     );
+
+    await axios
+      .post(
+        `${apiUrl}/notifications/like`,
+        { id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-
-  useEffect(() => {
-    console.log(whoLiked);
-  }, [whoLiked]);
 
   useEffect(() => {
     const debounceTimer = setTimeout(async () => {
