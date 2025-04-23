@@ -68,7 +68,14 @@ export const Notifications: React.FC = () => {
                 </button>
               </div>
             ) : notification.notificationType === "comment" ? (
-              `${notification.sender.username} comentou: `
+              <div className={styles.notificationLike}>
+                <span>
+                  {notification.sender.username} Comentou na sua publicação
+                </span>
+                <button onClick={() => getPost(notification.postId)}>
+                  Ver post
+                </button>
+              </div>
             ) : null}
             <div className={styles.read}>
               {notification.isRead ? (
