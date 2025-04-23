@@ -132,6 +132,14 @@ export const PostComponent: React.FC = () => {
         }
       )
       .then(() => setIsLikedPost(true));
+
+    await axios
+      .post(
+        `${apiUrl}/notifications/like`,
+        { id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
   };
 
   return (

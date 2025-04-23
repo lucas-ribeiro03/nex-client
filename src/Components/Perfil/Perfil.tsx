@@ -161,6 +161,14 @@ export const Perfil: React.FC = () => {
       }
     );
     setIsFollowing((prev) => [...prev, response.data.followingId]);
+
+    await axios
+      .post(
+        `${apiUrl}/notifications/follow`,
+        { username: id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
   };
 
   const handleClick = async (id: string) => {
@@ -207,6 +215,14 @@ export const Perfil: React.FC = () => {
           : post
       )
     );
+
+    await axios
+      .post(
+        `${apiUrl}/notifications/like`,
+        { id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
   };
 
   const handleDislike = async (id: string) => {
