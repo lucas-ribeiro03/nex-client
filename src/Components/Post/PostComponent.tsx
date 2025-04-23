@@ -84,10 +84,19 @@ export const PostComponent: React.FC = () => {
         },
       }
     );
+
     if (response.data.error) return toast.error(response.data.error);
+    await axios
+      .post(
+        `${apiUrl}/notifications/comment`,
+        { postId: id },
+        { headers: { accessToken: localStorage.getItem("token") } }
+      )
+      .then();
+
     setComments((prev) => [response.data, ...prev]);
-    setComment("");
     navigate(0);
+    setComment("");
   };
 
   const handleDeleteComment = async (id: string) => {
