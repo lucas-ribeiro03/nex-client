@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import styles from "./styles/global.module.scss";
@@ -13,10 +14,35 @@ import { useEffect, useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useWindowSize } from "./hooks/useWindowSize";
 import { Notifications } from "./Components/Notifications/Notifications";
+import axios from "axios";
+
+interface Notification {
+  id: string;
+  isRead: boolean;
+  notificationType: string;
+  sender: {
+    username: string;
+  };
+  postId?: string;
+}
 
 function App() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const { width, isKeyboardOpen } = useWindowSize();
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    const getNotifications = async () => {
+      const response = await axios.get(`${apiUrl}/notifications`, {
+        headers: { accessToken: localStorage.getItem("token") },
+      });
+      console.log(response);
+      setNotifications(response.data);
+    };
+
+    getNotifications();
+  }, []);
 
   useEffect(() => {
     if (width < 768 && !isKeyboardOpen) {
@@ -40,7 +66,10 @@ function App() {
           <Router>
             <div className={styles.nav}>
               {isNavbarVisible && (
-                <Navbar onclose={() => setIsNavbarVisible(false)} />
+                <Navbar
+                  notifications={notifications}
+                  onclose={() => setIsNavbarVisible(false)}
+                />
               )}
             </div>
 
@@ -49,7 +78,10 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/post/:id" element={<PostComponent />} />
               <Route path="/perfil/:username" element={<Perfil />} />
-              <Route path="/notifications" element={<Notifications />} />
+              <Route
+                path="/notifications"
+                element={<Notifications notification={notifications} />}
+              />
             </Routes>
           </Router>
         </Provider>

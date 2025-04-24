@@ -15,22 +15,18 @@ interface Notification {
   postId?: string;
 }
 
-export const Notifications: React.FC = () => {
+interface NotificationsProps {
+  notification: Notification[];
+}
+
+export const Notifications: React.FC<NotificationsProps> = ({
+  notification,
+}) => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    const getNotifications = async () => {
-      const response = await axios.get(`${apiUrl}/notifications`, {
-        headers: { accessToken: localStorage.getItem("token") },
-      });
-
-      setNotifications(response.data);
-    };
-    getNotifications();
-  }, []);
+  useEffect(() => setNotifications(notification), [notification]);
 
   const markAsRead = async (id: string) => {
     await axios
@@ -40,6 +36,7 @@ export const Notifications: React.FC = () => {
         { headers: { accessToken: localStorage.getItem("token") } }
       )
       .then();
+
     setNotifications((prev) =>
       prev.map((notification) =>
         notification.id === id

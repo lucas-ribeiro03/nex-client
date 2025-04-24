@@ -14,20 +14,35 @@ import axios from "axios";
 import { saveLogin } from "../../redux/isLoggedReducer/isLogged-slice";
 import { FaBell } from "react-icons/fa";
 
-interface NavbarProps {
-  onclose: () => void;
+interface Notification {
+  id: string;
+  isRead: boolean;
+  notificationType: string;
+  sender: {
+    username: string;
+  };
+  postId?: string;
 }
 
-interface Notification {
-  isRead: boolean;
+interface NavbarProps {
+  onclose: () => void;
+  notifications: Notification[];
 }
-export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
+
+export const Navbar: React.FC<NavbarProps> = ({ onclose, notifications }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
-  const [notificationsAmount, setNotificationsAmount] = useState([]);
   const dispatch = useDispatch();
+  const notReadNotificationsAmount =
+    notifications.length > 0
+      ? notifications.filter((notification) => notification.isRead !== true)
+      : [];
+
+  useEffect(() => {
+    console.log(notReadNotificationsAmount);
+  }, []);
 
   const { isLogged } = useSelector(
     (rootReducer: RootReducer) => rootReducer.isLoggedReducer
@@ -44,20 +59,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
     };
     if (isLogged) getUser();
   }, [isLogged]);
-
-  useEffect(() => {
-    const getNotifications = async () => {
-      const response = await axios.get(`${apiUrl}/notifications`, {
-        headers: { accessToken: localStorage.getItem("token") },
-      });
-      const notReadNotifications = response.data.filter(
-        (notification: Notification) => notification.isRead !== true
-      );
-      setNotificationsAmount(notReadNotifications);
-    };
-
-    getNotifications();
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -133,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onclose }) => {
               }}
             >
               <div className={styles.notificationsLength}>
-                {notificationsAmount.length}
+                {notReadNotificationsAmount.length}
               </div>
               <FaBell />
               Notificações

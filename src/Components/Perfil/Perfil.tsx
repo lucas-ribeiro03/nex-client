@@ -23,11 +23,10 @@ interface WhoLiked {
 }
 export const Perfil: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  const [userLogged, setUserLogged] = useState("");
   const [showFollows, setShowFollows] = useState<
     "followers" | "following" | null
   >(null);
-  const [isFollowing, setIsFollowing] = useState<string[]>([]);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [follows, setFollows] = useState({
     follower: 0,
     following: 0,
@@ -118,14 +117,16 @@ export const Perfil: React.FC = () => {
       const follower = response.data.followers.length;
       const following = response.data.following.length;
       setFollows({ follower, following });
-      setIsFollowing((prev) => [
-        ...prev,
-        ...response.data.followers.map(
-          (follower: Follower) => follower.followerId
-        ),
-      ]);
 
-      setUserLogged(response.data.user);
+      if (
+        response.data.followers.some(
+          (follower: Follower) => follower.followerId === response.data.user
+        )
+      ) {
+        setIsFollowing(true);
+      } else {
+        setIsFollowing(false);
+      }
     };
     getFollows();
   }, [username]);
@@ -151,16 +152,18 @@ export const Perfil: React.FC = () => {
   }, [username]);
 
   const handleFollowUser = async (id: string) => {
-    const response = await axios.post(
-      `${apiUrl}/users/${id}/follow`,
-      {},
-      {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      }
-    );
-    setIsFollowing((prev) => [...prev, response.data.followingId]);
+    await axios
+      .post(
+        `${apiUrl}/users/${id}/follow`,
+        {},
+        {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then();
+    setIsFollowing(true);
 
     await axios
       .post(
@@ -176,15 +179,15 @@ export const Perfil: React.FC = () => {
   };
 
   const handleUnfollowUser = async (username: string) => {
-    const response = await axios.delete(`${apiUrl}/users/${username}`, {
-      headers: {
-        accessToken: localStorage.getItem("token"),
-      },
-    });
+    await axios
+      .delete(`${apiUrl}/users/${username}`, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then();
 
-    setIsFollowing(
-      isFollowing.filter((followingId) => followingId !== response.data)
-    );
+    setIsFollowing(false);
   };
 
   const handleLike = async (id: string) => {
@@ -309,7 +312,7 @@ export const Perfil: React.FC = () => {
               <button onClick={() => setIsModalOpen(true)}>
                 Editar perfil
               </button>
-            ) : isFollowing.includes(userLogged) ? (
+            ) : isFollowing ? (
               <button onClick={() => handleUnfollowUser(user.username)}>
                 Deixar de seguir
               </button>
